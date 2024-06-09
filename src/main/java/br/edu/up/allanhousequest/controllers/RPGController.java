@@ -8,11 +8,12 @@ public class RPGController {
     private RPGModel model;
     private RPGView view;
 
-    public static Boolean isRunning;
+    public Boolean isRunning;
 
     public RPGController(RPGModel model, RPGView view) {
         this.model = model;
         this.view = view;
+        this.isRunning = false;
     }
 
     public void startGame() {
