@@ -1,5 +1,5 @@
 package br.edu.up.allanhousequest.models;
 
-public interface Interagivel {
+public interface Interactible {
     void interact();
 }
