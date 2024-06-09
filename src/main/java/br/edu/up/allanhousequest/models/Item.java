@@ -40,4 +40,9 @@ public class Item implements Serializable{
 		this.value = value;
 	}
 
+	@Override
+	public String toString() {
+		return "Item [name=" + name + ", type=" + type + ", value=" + value + "]";
+	}
+
 }
