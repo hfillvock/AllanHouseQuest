@@ -1,18 +1,19 @@
 package br.edu.up.allanhousequest.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.up.allanhousequest.controllers.RandomController;
 
-public class Character extends Entity {
+public class Player extends Entity implements Serializable{
 	
 	private List<Item> inventory;
 	private Item equippedWeapon;
 	private Item equippedArmour;
 	
 	//Constructor
-	public Character(String name, int hitPoints, int attackValue, int defenseValue) {
+	public Player(String name, int hitPoints, int attackValue, int defenseValue) {
 		super(name, hitPoints, attackValue, defenseValue);
 		this.inventory = new ArrayList<>();
 	}
