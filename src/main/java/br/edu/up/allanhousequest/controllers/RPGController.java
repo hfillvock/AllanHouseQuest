@@ -8,13 +8,19 @@ public class RPGController {
     private RPGModel model;
     private RPGView view;
 
+    public static Boolean isRunning;
+
     public RPGController(RPGModel model, RPGView view) {
         this.model = model;
         this.view = view;
     }
 
     public void startGame() {
-        // Implementação da lógica inicial do jogo
+
+    }
+
+    public void gameLoop() {
+
     }
 
     public void startBattle(Character character, Monster monster) {

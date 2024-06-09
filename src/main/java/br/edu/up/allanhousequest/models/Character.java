@@ -2,45 +2,78 @@ package br.edu.up.allanhousequest.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class Character extends Entity implements Interagivel{
-    private List<Item> inventario;
+import br.edu.up.allanhousequest.controllers.DiceController;
 
-    public List<Item> getInventario() {
-        return inventario;
-    }
+public class Character extends Entity {
+	
+	private List<Item> inventory;
+	private Item equippedWeapon;
+	private Item equippedArmour;
+	
+	//Constructor
+	public Character(String name, int hitPoints, int attackValue, int defenseValue) {
+		super(name, hitPoints, attackValue, defenseValue);
+		this.inventory = new ArrayList<>();
+	}
+	
+	//Getters and Setters
+	public Item getEquippedWeapon() {
+		return equippedWeapon;
+	}
 
-    public void setInventario(List<Item> inventario) {
-        this.inventario = inventario;
-    }
+	public void setEquippedWeapon(Item equippedWeapon) {
+		this.equippedWeapon = equippedWeapon;
+	}
 
-    public Character(String name, int healthPoints, int attackPointss, int defensePoints) {
-        super(name, healthPoints, attackPointss, defensePoints);
-        this.inventario = new ArrayList<>();
-    }
+	public Item getEquippedArmour() {
+		return equippedArmour;
+	}
 
-    @Override
-    public void attack(Entity target) {
-        // Implementação
-    }
+	public void setEquippedArmour(Item equippedArmour) {
+		this.equippedArmour = equippedArmour;
+	}
+	
+	//To String
+	@Override
+	public String toString() {
+		return "----------\n"
+				+ getName()
+				+ "\nHit Points: "
+				+ getHitPoints()
+				+ "\nAttack: "
+				+ getAttackValue()
+				+ "\nDefense: "
+				+ getDefenseValue()
+				+ "\n----------\n";
+	}
+	
+	//Methods
+	@Override
+	public void attack(Entity target) {
+		int diceRoll = DiceController.diceRoll();
+        
+        System.out.println(getName() + " atacou " + target.getName() + "!");
+		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());
+        
+		if (diceRoll + getAttackValue() >= target.getDefenseValue()) {
+			target.receiveDamage(equippedWeapon.getValue());
+			System.out.println("Ataque bem-sucedido! " + equippedWeapon.getValue() + " pontos de dano causados!");
+		} else {
+			System.out.println("Ataque mal-sucedido...");
+		}
+	}
+	
+	@Override
+	public void receiveDamage(int damage) {
+		setHitPoints(getHitPoints() - damage);
+	}	
 
-    @Override
-    public void receiveDamage(int damage) {
-        // Implementação
-    }
-
-    public void useItem(Item item) {
-        // Implementação para usar item
-    }
-
-    public void useItem(Item item, Entity target) {
-        // Sobrecarga de método para usar item em um alvo (polimorfismo)
-    }
-
-    @Override
-    public void interact() {
-        // Implementação da interface Interagivel
-    }
-
-    
+	public void equipWeapon(Item item) {
+	}
+	
+	public void equipArmour(Item item) {
+	}
 }
+
