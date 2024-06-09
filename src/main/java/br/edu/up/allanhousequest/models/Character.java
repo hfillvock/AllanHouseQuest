@@ -2,9 +2,8 @@ package br.edu.up.allanhousequest.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import br.edu.up.allanhousequest.controllers.DiceController;
+import br.edu.up.allanhousequest.controllers.RandomController;
 
 public class Character extends Entity {
 	
@@ -52,7 +51,7 @@ public class Character extends Entity {
 	//Methods
 	@Override
 	public void attack(Entity target) {
-		int diceRoll = DiceController.diceRoll();
+		int diceRoll = RandomController.diceRoll();
         
         System.out.println(getName() + " atacou " + target.getName() + "!");
 		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());
