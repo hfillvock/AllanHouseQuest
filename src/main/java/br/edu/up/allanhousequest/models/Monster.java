@@ -1,8 +1,10 @@
 package br.edu.up.allanhousequest.models;
 
+import java.io.Serializable;
+
 import br.edu.up.allanhousequest.controllers.RandomController;
 
-public class Monster extends Entity {
+public class Monster extends Entity implements Serializable {
 	
 	private int damageValue;
 	
