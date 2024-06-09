@@ -1,6 +1,8 @@
 package br.edu.up.allanhousequest.models;
 
-public abstract class Entity {
+import java.io.Serializable;
+
+public abstract class Entity implements Serializable {
 	
 	private String name;
 	private int hitPoints;
