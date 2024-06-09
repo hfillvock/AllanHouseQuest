@@ -4,39 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RPGModel {
-    private List<Character> characters;
+    private List<Player> players;
     private List<Monster> monsters;
     private List<Item> items;
-    private Character player;
-
+    
+    private Player currentPlayer;
+    
     public RPGModel() {
-        this.characters = new ArrayList<>();
+        this.players = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.items = new ArrayList<>();
     }
-
-    public void addCharacter(Character character) {
-        characters.add(character);
+    
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
-    public void removeCharacter(Character character) {
-        characters.remove(character);
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
-    public List<Character> listCharacters() {
-        return characters;
+    public void removePlayer(Player player) {
+        players.remove(player);
+    }
+    
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setMonsters(List<Monster> monsters) {
+        this.monsters = monsters;
     }
 
     public void addMonster(Monster monster) {
         monsters.add(monster);
     }
-
+    
     public void removeMonster(Monster monster) {
         monsters.remove(monster);
     }
-
-    public List<Monster> listMonsters() {
+    
+    public List<Monster> getMonsters() {
         return monsters;
+    }
+    
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public void addItem(Item item) {
@@ -47,7 +60,12 @@ public class RPGModel {
         items.remove(item);
     }
 
-    public List<Item> listItens() {
+    public List<Item> getItems() {
         return items;
     }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
 }
