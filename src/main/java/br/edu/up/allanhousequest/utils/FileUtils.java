@@ -3,6 +3,7 @@ package br.edu.up.allanhousequest.utils;
 import br.edu.up.allanhousequest.models.*;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,9 +13,9 @@ import java.io.FileInputStream;
 
 public class FileUtils {
 
-    public static File playersFile = new File("src/main/java/br/edu/up/allanhousequest/saves/savedplayers.tmp");
-    public static File monstersFile = new File("src/main/java/br/edu/up/allanhousequest/saves/savedmonsters.tmp");
-    public static File itemsFile = new File("src/main/java/br/edu/up/allanhousequest/saves/saveditems.tmp");
+    public static File playersFile = new File("src/main/java/br/edu/up/allanhousequest/saves/savedplayers.ser");
+    public static File monstersFile = new File("src/main/java/br/edu/up/allanhousequest/saves/savedmonsters.ser");
+    public static File itemsFile = new File("src/main/java/br/edu/up/allanhousequest/saves/saveditems.ser");
     
     public static void initializeFiles() {
 
@@ -92,8 +93,9 @@ public class FileUtils {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            @SuppressWarnings("unchecked") // operação com tipo garantido
-            List<Player> players = (List<Player>) ois.readObject();
+            List<Player> players = null;
+            
+            players = (ArrayList) ois.readObject();
             fis.close();
 
             return players;
@@ -113,8 +115,9 @@ public class FileUtils {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             
-            @SuppressWarnings("unchecked") // operação com tipo garantido
-            List<Monster> monsters = (List<Monster>) ois.readObject();
+            List<Monster> monsters = null;
+            
+            monsters = (ArrayList) ois.readObject();
             fis.close();
 
             return monsters;
@@ -134,8 +137,9 @@ public class FileUtils {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             
-            @SuppressWarnings("unchecked") // operação com tipo garantido
-            List<Item> items = (List<Item>) ois.readObject();
+            List<Item> items = null;
+            
+            items = (ArrayList) ois.readObject();
             fis.close();
 
             return items;
