@@ -30,12 +30,12 @@ public class EntityDAO {
     }
 
     public static List<Monster> loadMonsters() {
-        List<Monster> monsters = FileUtils.readMonstersFile(FileUtils.playersFile);
+        List<Monster> monsters = FileUtils.readMonstersFile(FileUtils.monstersFile);
         return monsters;
     }
 
     public static List<Item> loadItems() {
-        List<Item> items = FileUtils.readItemsFile(FileUtils.playersFile);
+        List<Item> items = FileUtils.readItemsFile(FileUtils.itemsFile);
         return items;
     }
 
