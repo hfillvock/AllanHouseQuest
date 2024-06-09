@@ -16,11 +16,17 @@ public class RPGController {
     }
 
     public void startGame() {
-
+        // Criar ou carregar player, e chamar o gameLoop
     }
 
     public void gameLoop() {
+        while(isRunning == true) {
+            generateEncounter();
+        }
+    }
 
+    public void generateEncounter() {
+        // Gerar encontro aleatório com monstros, interagível, ou sei lá o que, por meio de RandomController
     }
 
     public void startBattle(Character character, Monster monster) {
