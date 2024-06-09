@@ -7,6 +7,7 @@ public class RPGModel {
     private List<Character> characters;
     private List<Monster> monsters;
     private List<Item> items;
+    private Character player;
 
     public RPGModel() {
         this.characters = new ArrayList<>();
