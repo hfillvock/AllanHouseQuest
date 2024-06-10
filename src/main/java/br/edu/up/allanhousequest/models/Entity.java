@@ -4,13 +4,15 @@ import java.io.Serializable;
 
 public abstract class Entity implements Serializable {
 	
+	private int id;
 	private String name;
 	private int hitPoints;
 	private int attackValue;
 	private int defenseValue;
 	
 	//Constructor
-	public Entity(String name, int hitPoints, int attackValue, int defenseValue) {
+	public Entity(int id, String name, int hitPoints, int attackValue, int defenseValue) {
+		this.id = id;
 		this.name = name;
 		this.hitPoints = hitPoints;
 		this.attackValue = attackValue;
@@ -18,6 +20,15 @@ public abstract class Entity implements Serializable {
 	}
 	
 	//Getters and Setters
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}

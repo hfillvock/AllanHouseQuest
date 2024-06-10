@@ -1,8 +1,8 @@
-package br.edu.up.allanhousequest.controllers;
+package br.edu.up.allanhousequest.utils;
 
 import java.util.Random;
 
-public class RandomController {
+public class Utils {
     
     public static int diceRoll() {
         Random random  = new Random();
@@ -10,6 +10,4 @@ public class RandomController {
 
         return diceRoll;
     }
-
-    // métodos para auxiliar na geração de encontro aleatório
 }

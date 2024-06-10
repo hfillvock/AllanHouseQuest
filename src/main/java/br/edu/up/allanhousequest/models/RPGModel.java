@@ -70,8 +70,13 @@ public class RPGModel {
         return items;
     }
 
+    // current player
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
 }

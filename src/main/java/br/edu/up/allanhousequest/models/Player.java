@@ -1,24 +1,33 @@
 package br.edu.up.allanhousequest.models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.up.allanhousequest.controllers.RandomController;
+import br.edu.up.allanhousequest.utils.Utils;
 
-public class Player extends Entity implements Serializable{
-	
+public class Player extends Entity {
+
+	private int id;
 	private List<Item> inventory;
 	private Item equippedWeapon;
 	private Item equippedArmour;
 	
 	//Constructor
-	public Player(String name, int hitPoints, int attackValue, int defenseValue) {
-		super(name, hitPoints, attackValue, defenseValue);
+	public Player(int id, String name, int hitPoints, int attackValue, int defenseValue) {
+		super(id, name, hitPoints, attackValue, defenseValue);
 		this.inventory = new ArrayList<>();
 	}
 	
 	//Getters and Setters
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Item getEquippedWeapon() {
 		return equippedWeapon;
 	}
@@ -52,7 +61,7 @@ public class Player extends Entity implements Serializable{
 	//Methods
 	@Override
 	public void attack(Entity target) {
-		int diceRoll = RandomController.diceRoll();
+		int diceRoll = Utils.diceRoll();
         
         System.out.println(getName() + " atacou " + target.getName() + "!");
 		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());

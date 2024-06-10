@@ -1,20 +1,28 @@
 package br.edu.up.allanhousequest.models;
 
-import java.io.Serializable;
+import br.edu.up.allanhousequest.utils.Utils;
 
-import br.edu.up.allanhousequest.controllers.RandomController;
-
-public class Monster extends Entity implements Serializable {
+public class Monster extends Entity {
 	
+	private int id;
 	private int damageValue;
 	
 	//Constructor
-	public Monster(String name, int hitPoints, int attackValue, int defenseValue, int damageValue) {
-		super(name, hitPoints, attackValue, defenseValue);
+	public Monster(int id, String name, int hitPoints, int attackValue, int defenseValue, int damageValue) {
+		super(id, name, hitPoints, attackValue, defenseValue);
 		this.damageValue = damageValue;
 	}
 	
 	//Getters and Setters
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getDamageValue() {
 		return damageValue;
 	}
@@ -41,7 +49,7 @@ public class Monster extends Entity implements Serializable {
 	
 	//Methods
 	public void attack(Entity target) {
-		int diceRoll = RandomController.diceRoll();
+		int diceRoll = Utils.diceRoll();
 
         System.out.println(getName() + " atacou " + target.getName() + "!");
 		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());
