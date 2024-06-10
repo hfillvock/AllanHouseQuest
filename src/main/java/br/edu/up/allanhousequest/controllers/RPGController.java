@@ -1,6 +1,7 @@
 package br.edu.up.allanhousequest.controllers;
 
 import br.edu.up.allanhousequest.models.Monster;
+import br.edu.up.allanhousequest.models.Player;
 import br.edu.up.allanhousequest.models.RPGModel;
 import br.edu.up.allanhousequest.views.RPGView;
 
@@ -21,6 +22,7 @@ public class RPGController {
     }
 
     public void gameLoop() {
+        
         while(isRunning == true) {
             generateEncounter();
         }
@@ -30,7 +32,7 @@ public class RPGController {
         // Gerar encontro aleatório com monstros, interagível, ou sei lá o que, por meio de RandomController
     }
 
-    public void startBattle(Character character, Monster monster) {
+    public void startBattle(Player player, Monster monster) {
         // Implementação da lógica de batalha
     }
     

@@ -39,9 +39,5 @@ public class EntityDAO {
         return items;
     }
 
-    public void listPlayers() {
-        // Implementação para listar personagens
-    }
-
     // Outros métodos de CRUD
 }

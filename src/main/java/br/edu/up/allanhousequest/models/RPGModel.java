@@ -15,6 +15,8 @@ public class RPGModel {
         this.monsters = new ArrayList<>();
         this.items = new ArrayList<>();
     }
+
+    // players
     
     public void setPlayers(List<Player> players) {
         this.players = players;
@@ -32,6 +34,8 @@ public class RPGModel {
         return players;
     }
 
+    // monsters
+
     public void setMonsters(List<Monster> monsters) {
         this.monsters = monsters;
     }
@@ -48,6 +52,8 @@ public class RPGModel {
         return monsters;
     }
     
+    // items
+
     public void setItems(List<Item> items) {
         this.items = items;
     }
