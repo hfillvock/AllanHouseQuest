@@ -12,8 +12,10 @@ public class FilePlayerDAO implements PlayerDAO {
     @Override
     public void savePlayer(Player player) {
         List<Player> players = loadAllPlayers();
+
         players.removeIf(p -> p.getId() == player.getId());
         players.add(player);
+
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             out.writeObject(players);
         } catch (IOException e) {
@@ -30,6 +32,7 @@ public class FilePlayerDAO implements PlayerDAO {
     @Override
     public List<Player> loadAllPlayers() {
         List<Player> players = new ArrayList<>();
+
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             players = (List<Player>) in.readObject();
         } catch (FileNotFoundException e) {
@@ -37,6 +40,7 @@ public class FilePlayerDAO implements PlayerDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
         return players;
     }
 }

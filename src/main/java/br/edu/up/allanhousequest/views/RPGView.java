@@ -1,6 +1,5 @@
 package br.edu.up.allanhousequest.views;
 
-import br.edu.up.allanhousequest.models.Player;
 import br.edu.up.allanhousequest.models.RPGModel;
 import br.edu.up.allanhousequest.utils.Utils;
 
@@ -21,18 +20,18 @@ public class RPGView {
     public String createNewPlayer() {
         Utils.printDivider();
 
-        System.out.println("Criando personagem.");
+        Utils.printCentered("Criando personagem.");
 
-        System.out.println("Insira o nome do personagem: ");
-        String nome = Utils.scanner.nextLine();
+        Utils.printCentered("Insira o nome do personagem: ");
+        String name = Utils.scanLine();
 
-        return nome;
+        return name;
     }
 
     public void listPlayers(RPGModel model) {
         Utils.printDivider();
 
-        System.out.println("Listando personagens: \n");
+        Utils.printCentered("Listando personagens: \n");
 
         for (int i = 0; i < model.getPlayers().size(); i++) {
             System.out.println(i + ":\n" + model.getPlayers().get(i));
@@ -42,10 +41,10 @@ public class RPGView {
     public int selectPlayer() {
         Utils.printDivider();
 
-        System.out.println("Escolhendo personagem.");
+        Utils.printCentered("Escolhendo personagem.");
 
-        System.out.println("Insira o índice do personagem: ");
-        int i = Utils.scanner.nextInt();
+        Utils.printCentered("Insira o índice do personagem.");
+        int i = Utils.scanInt();
         
         return i;
     }

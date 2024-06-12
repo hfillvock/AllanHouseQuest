@@ -2,15 +2,10 @@ package br.edu.up.allanhousequest.controllers;
 
 import java.util.List;
 
-import br.edu.up.allanhousequest.daos.DAOFactory;
-import br.edu.up.allanhousequest.daos.ItemDAO;
-import br.edu.up.allanhousequest.daos.MonsterDAO;
-import br.edu.up.allanhousequest.daos.PlayerDAO;
-import br.edu.up.allanhousequest.models.Item;
-import br.edu.up.allanhousequest.models.Monster;
-import br.edu.up.allanhousequest.models.Player;
-import br.edu.up.allanhousequest.models.RPGModel;
-import br.edu.up.allanhousequest.views.RPGView;
+import br.edu.up.allanhousequest.factories.*;
+import br.edu.up.allanhousequest.daos.*;
+import br.edu.up.allanhousequest.models.*;
+import br.edu.up.allanhousequest.views.*;
 
 public class RPGController {
     private RPGModel model;
@@ -33,12 +28,14 @@ public class RPGController {
 
     public void saveGame(Player player, List<Monster> monsters, List<Item> items) {
         playerDAO.savePlayer(player);
+
         for (Monster monster : monsters) {
             monsterDAO.saveMonster(monster);
         }
         for (Item item : items) {
             itemDAO.saveItem(item);
         }
+        
         System.out.println("Game saved.");
     }
 

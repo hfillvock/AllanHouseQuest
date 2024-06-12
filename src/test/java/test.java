@@ -16,6 +16,7 @@ public class test {
 
         Utils.printDivider();
 
-        System.out.println("\n\n\nainda não tá salvando!!!!!!! \n\n\n");
+        Utils.printCentered("Centered Text");
+
     }
 }

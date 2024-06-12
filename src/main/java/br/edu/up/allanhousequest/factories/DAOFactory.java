@@ -1,4 +1,6 @@
-package br.edu.up.allanhousequest.daos;
+package br.edu.up.allanhousequest.factories;
+
+import br.edu.up.allanhousequest.daos.*;
 
 public class DAOFactory {
     public static PlayerDAO getPlayerDAO() {
