@@ -46,18 +46,44 @@ public class RPGController {
         Player player = playerDAO.loadPlayer(playerId);
         List<Monster> monsters = monsterDAO.loadAllMonsters();
         List<Item> items = itemDAO.loadAllItems();
-
-        System.out.println("Loaded Player: " + player);
-        System.out.println("Loaded Monsters: " + monsters);
-        System.out.println("Loaded Items: " + items);
     }
 
     public void startGame() {
-        // Criar ou carregar player, e chamar o gameLoop
+        view.mainMenu();
+
+        if (hasPlayers()) {
+            view.listPlayers(model);
+
+            selectPlayer(view.selectPlayer());
+        } else {
+            createNewPlayer();
+        }
+
+        gameLoop();
+    }
+    
+    public boolean hasPlayers() {
+        if (model.getPlayers().isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
+    public void createNewPlayer() {
+        String name = view.createNewPlayer();
+
+        Player addedPlayer = new Player(0, name, 100, 10, 5); //alterar valores
+
+        model.addPlayer(addedPlayer);
+        model.setCurrentPlayer(addedPlayer);
+    }
+
+    private void selectPlayer(int i) {
+        Player player = model.getPlayers().get(i);
+        model.setCurrentPlayer(player);
+    }
+    
     public void gameLoop() {
-        
         while(isRunning == true) {
             generateEncounter();
         }
@@ -70,5 +96,4 @@ public class RPGController {
     public void startBattle(Player player, Monster monster) {
         // Implementação da lógica de batalha
     }
-    
 }
