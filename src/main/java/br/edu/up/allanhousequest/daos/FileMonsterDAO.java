@@ -12,8 +12,10 @@ public class FileMonsterDAO implements MonsterDAO {
     @Override
     public void saveMonster(Monster monster) {
         List<Monster> monsters = loadAllMonsters();
+
         monsters.removeIf(m -> m.getId() == monster.getId());
         monsters.add(monster);
+
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             out.writeObject(monsters);
         } catch (IOException e) {
@@ -30,6 +32,7 @@ public class FileMonsterDAO implements MonsterDAO {
     @Override
     public List<Monster> loadAllMonsters() {
         List<Monster> monsters = new ArrayList<>();
+
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             monsters = (List<Monster>) in.readObject();
         } catch (FileNotFoundException e) {
@@ -37,6 +40,7 @@ public class FileMonsterDAO implements MonsterDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
         return monsters;
     }
 }

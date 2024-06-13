@@ -16,7 +16,5 @@ public class test {
 
         Utils.printDivider();
 
-        Utils.printCentered("Centered Text");
-
     }
 }

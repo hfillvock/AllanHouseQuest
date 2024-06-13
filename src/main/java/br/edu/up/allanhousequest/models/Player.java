@@ -78,11 +78,5 @@ public class Player extends Entity {
 	public void receiveDamage(int damage) {
 		setHitPoints(getHitPoints() - damage);
 	}	
-
-	public void equipWeapon(Item item) {
-	}
-	
-	public void equipArmour(Item item) {
-	}
 }
 

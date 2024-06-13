@@ -16,6 +16,13 @@ public class Utils {
         return diceRoll;
     }
 
+    public static char scanFirstChar() {
+        System.out.print("\n> ");
+        char readChar = scanner.next().toLowerCase().charAt(0);
+
+        return readChar;
+    }
+
     public static int scanInt() {
         System.out.print("\n> ");
 
@@ -33,8 +40,7 @@ public class Utils {
         for (int i = 0; i < 96; i++) {
             System.out.print("#");
         }
-        System.out.println();
-
+        System.out.println("\n");
     }
 
     public static void printCentered(String text) {
@@ -43,4 +49,7 @@ public class Utils {
         System.out.println(centeredText);
     }
 
+    public static void clearScannerBuffer() {
+        scanner.nextLine();
+    }
 }

@@ -12,8 +12,10 @@ public class FileItemDAO implements ItemDAO {
     @Override
     public void saveItem(Item item) {
         List<Item> items = loadAllItems();
+
         items.removeIf(i -> i.getId() == item.getId());
         items.add(item);
+
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             out.writeObject(items);
         } catch (IOException e) {
@@ -30,6 +32,7 @@ public class FileItemDAO implements ItemDAO {
     @Override
     public List<Item> loadAllItems() {
         List<Item> items = new ArrayList<>();
+
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             items = (List<Item>) in.readObject();
         } catch (FileNotFoundException e) {
@@ -37,6 +40,7 @@ public class FileItemDAO implements ItemDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
         return items;
     }
 }

@@ -46,17 +46,36 @@ public class RPGController {
     }
 
     public void startGame() {
-        view.mainMenu();
+        char choice = view.mainMenu();
 
-        if (hasPlayers()) {
-            view.listPlayers(model);
+        switch (choice) {
+            case 'i':
+                if (hasPlayers()) {
+                    view.listPlayers(model);
+        
+                    selectPlayer(view.selectPlayer());
+                } else {
+                    createNewPlayer();
+                }
+        
+                gameLoop();
+                break;
+            case 'c':
+                choice = view.createNewEntity();
 
-            selectPlayer(view.selectPlayer());
-        } else {
-            createNewPlayer();
+                switch (choice) {
+                    case 'p':
+                        break;
+                    case 'm':
+                        break;
+                    case 'i':
+                        break;
+                    default:
+                        break;
+                }
+            default:
+                break;
         }
-
-        gameLoop();
     }
     
     public boolean hasPlayers() {
