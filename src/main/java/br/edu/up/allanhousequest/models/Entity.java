@@ -39,6 +39,14 @@ public abstract class Entity implements Serializable {
 		this.name = name;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public int getHitPoints() {
 		return hitPoints;
 	}
