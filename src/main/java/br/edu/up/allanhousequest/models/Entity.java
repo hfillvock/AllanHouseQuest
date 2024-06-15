@@ -6,16 +6,18 @@ public abstract class Entity implements Serializable {
 	
 	private int id;
 	private String name;
+	private int level;
 	private int hitPoints;
-	private int attackValue;
+	private int attackModifier;
 	private int defenseValue;
 	
 	//Constructor
-	public Entity(int id, String name, int hitPoints, int attackValue, int defenseValue) {
+	public Entity(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue) {
 		this.id = id;
 		this.name = name;
+		this.level = level;
 		this.hitPoints = hitPoints;
-		this.attackValue = attackValue;
+		this.attackModifier = attackModifier;
 		this.defenseValue = defenseValue;
 	}
 	
@@ -45,12 +47,12 @@ public abstract class Entity implements Serializable {
 		this.hitPoints = hitPoints;
 	}
 
-	public int getAttackValue() {
-		return attackValue;
+	public int getattackModifier() {
+		return attackModifier;
 	}
 
-	public void setAttackValue(int attackValue) {
-		this.attackValue = attackValue;
+	public void setattackModifier(int attackModifier) {
+		this.attackModifier = attackModifier;
 	}
 
 	public int getDefenseValue() {
