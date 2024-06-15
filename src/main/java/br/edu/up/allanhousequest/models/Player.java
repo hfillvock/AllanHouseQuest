@@ -13,8 +13,8 @@ public class Player extends Entity {
 	private Item equippedArmour;
 	
 	//Constructor
-	public Player(int id, String name, int hitPoints, int attackValue, int defenseValue) {
-		super(id, name, hitPoints, attackValue, defenseValue);
+	public Player(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue) {
+		super(id, name, level, hitPoints, attackModifier, defenseValue);
 		this.inventory = new ArrayList<>();
 	}
 	
@@ -52,7 +52,7 @@ public class Player extends Entity {
 				+ "\nHit Points: "
 				+ getHitPoints()
 				+ "\nAttack: "
-				+ getAttackValue()
+				+ getattackModifier()
 				+ "\nDefense: "
 				+ getDefenseValue()
 				+ "\n----------\n";
@@ -64,9 +64,9 @@ public class Player extends Entity {
 		int diceRoll = Utils.diceRoll();
         
         System.out.println(getName() + " atacou " + target.getName() + "!");
-		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());
+		System.out.println((diceRoll + getattackModifier()) + " (" + diceRoll + "+" + getattackModifier() + ") vs " + target.getDefenseValue());
         
-		if (diceRoll + getAttackValue() >= target.getDefenseValue()) {
+		if (diceRoll + getattackModifier() >= target.getDefenseValue()) {
 			target.receiveDamage(equippedWeapon.getValue());
 			System.out.println("Ataque bem-sucedido! " + equippedWeapon.getValue() + " pontos de dano causados!");
 		} else {
