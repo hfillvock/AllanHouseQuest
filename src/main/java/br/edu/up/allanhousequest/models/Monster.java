@@ -9,8 +9,8 @@ public class Monster extends Entity {
 	private int damageModifier;
 	
 	//Constructor
-	public Monster(int id, String name, int hitPoints, int attackValue, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
-		super(id, name, hitPoints, attackValue, defenseValue);
+	public Monster(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
+		super(id, name, level, hitPoints, attackModifier, defenseValue);
 		this.damageDice = damageDice;
 		this.damageDiceQuantity = damageDiceQuantity;
 		this.damageModifier = damageModifier;
@@ -50,7 +50,7 @@ public class Monster extends Entity {
 				+ "\nHit Points: "
 				+ getHitPoints()
 				+ "\nAttack: "
-				+ getAttackValue()
+				+ getattackModifier()
 				+ "\nDefense: "
 				+ getDefenseValue()
 				+ "\nDamage: "
@@ -63,9 +63,9 @@ public class Monster extends Entity {
 		int diceRoll = Utils.diceRoll();
 
         System.out.println(getName() + " atacou " + target.getName() + "!");
-		System.out.println((diceRoll + getAttackValue()) + " (" + diceRoll + "+" + getAttackValue() + ") vs " + target.getDefenseValue());
+		System.out.println((diceRoll + getattackModifier()) + " (" + diceRoll + "+" + getattackModifier() + ") vs " + target.getDefenseValue());
         
-		if (diceRoll + getAttackValue() >= target.getDefenseValue()) {
+		if (diceRoll + getattackModifier() >= target.getDefenseValue()) {
 			target.receiveDamage(damageValue);
 			System.out.println("Droga! O ataque acertou e causou " + damageValue + " pontos de dano.");
 		} else {
