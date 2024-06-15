@@ -3,37 +3,48 @@ package br.edu.up.allanhousequest.models;
 import br.edu.up.allanhousequest.utils.Utils;
 
 public class Monster extends Entity {
-	
-	private int id;
-	private int damageValue;
+
+	private int damageDice;
+	private int damageDiceQuantity;
+	private int damageModifier;
 	
 	//Constructor
-	public Monster(int id, String name, int hitPoints, int attackValue, int defenseValue, int damageValue) {
+	public Monster(int id, String name, int hitPoints, int attackValue, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
 		super(id, name, hitPoints, attackValue, defenseValue);
-		this.damageValue = damageValue;
+		this.damageDice = damageDice;
+		this.damageDiceQuantity = damageDiceQuantity;
+		this.damageModifier = damageModifier;
 	}
 	
 	//Getters and Setters
 
-	public int getId() {
-		return id;
+	public int getDamageDice() {
+		return damageDice;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setDamageDice(int damageDice) {
+		this.damageDice = damageDice;
 	}
 
-	public int getDamageValue() {
-		return damageValue;
+	public int getDamageDiceQuantity() {
+		return damageDiceQuantity;
 	}
 
-	public void setDamageValue(int damageValue) {
-		this.damageValue = damageValue;
+	public void setDamageDiceQuantity(int damageDiceQuantity) {
+		this.damageDiceQuantity = damageDiceQuantity;
+	}
+
+	public int getDamageModifier() {
+		return damageModifier;
+	}
+
+	public void setDamageModifier(int damageModifier) {
+		this.damageModifier = damageModifier;
 	}
 	
 	//To String
 	@Override
-	public String toString() {
+	public String toString() { //desatualizado
 		return "----------\n"
 				+ getName()
 				+ "\nHit Points: "
@@ -43,12 +54,12 @@ public class Monster extends Entity {
 				+ "\nDefense: "
 				+ getDefenseValue()
 				+ "\nDamage: "
-				+ getDamageValue()
 				+ "\n----------\n";
 		}
 	
 	//Methods
-	public void attack(Entity target) {
+	
+	public void attack(Entity target) { //desatualizado
 		int diceRoll = Utils.diceRoll();
 
         System.out.println(getName() + " atacou " + target.getName() + "!");
