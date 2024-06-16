@@ -42,21 +42,6 @@ public class Monster extends Entity {
 		this.damageModifier = damageModifier;
 	}
 	
-	//To String
-	@Override
-	public String toString() { //desatualizado
-		return "----------\n"
-				+ getName()
-				+ "\nHit Points: "
-				+ getHitPoints()
-				+ "\nAttack: "
-				+ getattackModifier()
-				+ "\nDefense: "
-				+ getDefenseValue()
-				+ "\nDamage: "
-				+ "\n----------\n";
-		}
-	
 	//Methods
 	
 	public void attack(Entity target) { //desatualizado
