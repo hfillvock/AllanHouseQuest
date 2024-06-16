@@ -1,10 +1,12 @@
 package br.edu.up.allanhousequest.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.up.allanhousequest.factories.*;
 import br.edu.up.allanhousequest.daos.*;
 import br.edu.up.allanhousequest.models.*;
+import br.edu.up.allanhousequest.utils.Utils;
 import br.edu.up.allanhousequest.views.*;
 
 public class RPGController {
@@ -115,46 +117,20 @@ public class RPGController {
         }
     }
 
-    public void startBattle(Player player, Monster monster) {
-        // Implementação da lógica de batalha
-    }
-
-    // Versão 1
-    public void generateEncounter() {
-        Player player = model.getCurrentPlayer();
-        int playerLevel = player.getLevel();
-    
-        // Generates a random number of monsters and items based on the player's level
-        Random random = new Random();
-        int numberOfMonsters = random.nextInt(playerLevel + 1) + 1; // Entre 1 e (playerLevel + 1)
-        int numberOfItems = random.nextInt(playerLevel + 1); // Entre 0 e playerLevel
-    
-        // Select random monsters and items
-        List<Monster> monsters = model.getRandomMonsters(numberOfMonsters);
-        List<Item> items = model.getRandomItems(numberOfItems);
-    
-        // Adds to the model
-        model.setEncounterMonsters(monsters);
-        model.setEncounterItems(items);
-    
-        view.displayEncounter(monsters, items);
-    }
-
-    // Versão 2
     public void generateRoom(Player player) {
     	int roomLevel = player.getLevel();
     	List<Monster> roomMonsters = new ArrayList<>();
     
     	Random random  = new Random();
     	
-    	// Preenchimento da lista de monstros com o nível equivalente ao do jogador.
+    	// Preenchimento da lista de monstros com o nível equivalente ao do jogador
     	for (Monster monster : monsters) {
     		if (monster.getLevel() <= player.getLevel()) {
     			roomMonsters.add(monster);
     		}
         }
     	
-    	// Geração da sala.
+    	// Geração da sala
     	while (player.getLevel() == roomLevel) {
     		Monster monster = roomMonsters.get(random.nextInt(roomMonsters.size()));
     		System.out.println();
@@ -176,7 +152,7 @@ public class RPGController {
     			System.out.println("3 - Seguir para a próxima sala");
     			System.out.println("4 - Salvar jogo e sair");
     			
-    			int action = Utils.scanInt();
+    			int action = Utils.scanInt()
     			Utils.clearScannerBuffer();
     			
     			switch (action) {
@@ -199,35 +175,6 @@ public class RPGController {
     		}
     	}
     
-    }
-
-    // Versão 1
-    public void startBattle(Player player, Monster monster) {
-        while (player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
-            // Player turn
-            int playerDamage = Math.max(0, player.getAttackValue() - monster.getDefenseValue());
-            monster.setHitPoints(monster.getHitPoints() - playerDamage);
-            view.displayBattleTurn(player, monster, playerDamage, true);
-            if (monster.getHitPoints() <= 0) {
-                view.displayBattleResult(player, monster, true);
-                break;
-            }
-
-            // Monster turn
-            int monsterDamage = Math.max(0, monster.getAttackValue() - player.getDefenseValue());
-            player.setHitPoints(player.getHitPoints() - monsterDamage);
-            view.displayBattleTurn(player, monster, monsterDamage, false);
-            if (player.getHitPoints() <= 0) {
-                view.displayBattleResult(player, monster, false);
-                break;
-            }
-        }
-
-        // After battle: Update player status and remove monster from encounter list
-        if (player.getHitPoints() > 0) {
-            player.gainXp(monster.getXp());
-            model.dieEncounterMonster(monster);
-        }
     }
 
     // Versão 2

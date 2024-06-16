@@ -4,19 +4,29 @@ import br.edu.up.allanhousequest.utils.Utils;
 
 public class Monster extends Entity {
 
+	private int experiencePoints;
 	private int damageDice;
 	private int damageDiceQuantity;
 	private int damageModifier;
 	
 	//Constructor
-	public Monster(String name, int level, int hitPoints, int attackModifier, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
+	public Monster(String name, int level, int hitPoints, int attackModifier, int defenseValue, int experiencePoints, int damageDice, int damageDiceQuantity, int damageModifier) {
 		super(name, level, hitPoints, attackModifier, defenseValue);
+		this.experiencePoints = experiencePoints;
 		this.damageDice = damageDice;
 		this.damageDiceQuantity = damageDiceQuantity;
 		this.damageModifier = damageModifier;
 	}
 	
 	//Getters and Setters
+
+	public int getExperiencePoints() {
+		return experiencePoints;
+	}
+
+	public void setExperiencePoints(int experiencePoints) {
+		this.experiencePoints = experiencePoints;
+	}
 
 	public int getDamageDice() {
 		return damageDice;
