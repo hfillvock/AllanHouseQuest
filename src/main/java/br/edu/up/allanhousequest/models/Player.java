@@ -21,6 +21,14 @@ public class Player extends Entity {
 	
 	//Getters and Setters
 
+	public int getExperiencePoints() {
+		return experiencePoints;
+	}
+
+	public void setExperiencePoints() {
+		this.experiencePoints = experiencePoints;
+	}
+	
 	public Item getEquippedWeapon() {
 		return equippedWeapon;
 	}
