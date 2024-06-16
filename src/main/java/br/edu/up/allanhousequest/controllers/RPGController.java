@@ -2,6 +2,7 @@ package br.edu.up.allanhousequest.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import br.edu.up.allanhousequest.factories.*;
 import br.edu.up.allanhousequest.daos.*;
@@ -113,7 +114,7 @@ public class RPGController {
     
     public void gameLoop() {
         while(isRunning == true) {
-            generateEncounter();
+            generateRoom(model.getCurrentPlayer());
         }
     }
 
@@ -124,7 +125,7 @@ public class RPGController {
     	Random random  = new Random();
     	
     	// Preenchimento da lista de monstros com o nível equivalente ao do jogador
-    	for (Monster monster : monsters) {
+    	for (Monster monster : model.getMonsters()) {
     		if (monster.getLevel() <= player.getLevel()) {
     			roomMonsters.add(monster);
     		}
