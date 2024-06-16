@@ -20,12 +20,11 @@ public class Player extends Entity {
 	}
 	
 	//Getters and Setters
-
 	public int getExperiencePoints() {
 		return experiencePoints;
 	}
 
-	public void setExperiencePoints() {
+	public void setExperiencePoints(int experiencePoints) {
 		this.experiencePoints = experiencePoints;
 	}
 	
