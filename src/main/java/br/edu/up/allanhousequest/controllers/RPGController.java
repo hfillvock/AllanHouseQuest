@@ -105,14 +105,11 @@ public class RPGController {
         }
     }
 
-    public void generateEncounter() {
-        // Gerar encontro aleatório com monstros, interagível, ou sei lá o que
-    }
-
     public void startBattle(Player player, Monster monster) {
         // Implementação da lógica de batalha
     }
 
+    // Versão 1
     public void generateEncounter() {
         Player player = model.getCurrentPlayer();
         int playerLevel = player.getLevel();
@@ -131,6 +128,40 @@ public class RPGController {
         model.setEncounterItems(items);
     
         view.displayEncounter(monsters, items);
+    }
+
+    // Versão 2
+    public void generateRoom() {
+    	Player player = model.getCurrentPlayer();
+    	int roomLevel = player.getLevel();
+    	List<Monster> roomMonsters = new ArrayList<>(); // Lista de monstros com o nível equivalente ao do jogador
+    
+    	Random random  = new Random();
+    	
+    	// Preenchimento da lista de monstros com o nível equivalente ao do jogador.
+    	for (Monster monster : monsters) {
+    		if (monster.getLevel() <= player.getLevel()) {
+    			roomMonsters.add(monster);
+    		}
+        }
+    
+    	while (player.getLevel() == roomLevel) {
+    		// Seleção de um monstro aleatório da lista de monstros com o nível equivalente ao do jogador.
+    		Monster monster = roomMonsters.get(random.nextInt(roomMonsters.size()));
+    		System.out.println("Você encontrou um " + monster.getName() + "!");
+    
+    		//Batalha
+    		startBattle(player, monster);
+    
+    		// Verificação do nível do jogador
+    		if (player.getLevel() > roomLevel) {
+    			System.out.println("Parabéns! Você subiu de nível para o nível " + player.getLevel() + ".");
+    			// Código de recompensa da batalha.
+    			// Código para verificar se o jogador quer seguir para a próxima sala ou salvar e sair do jogo.
+    		}
+    
+    	}
+    
     }
 
     public void startBattle(Player player, Monster monster) {
