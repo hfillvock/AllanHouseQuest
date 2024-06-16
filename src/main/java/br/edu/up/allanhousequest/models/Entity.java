@@ -60,9 +60,12 @@ public abstract class Entity implements Serializable {
 	public void setDefenseValue(int defenseValue) {
 		this.defenseValue = defenseValue;
 	}
+
+	// Methods
+	public void receiveDamage(int damage) {
+		setHitPoints(getHitPoints() - damage);
+	}
 	
-	//Abstract Methods
+	// Abstract Methods
 	public abstract void attack(Entity target);
-	
-	public abstract void receiveDamage(int damage);
 }
