@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public abstract class Entity implements Serializable {
 	
-	private int id;
 	private String name;
 	private int level;
 	private int hitPoints;
@@ -12,8 +11,7 @@ public abstract class Entity implements Serializable {
 	private int defenseValue;
 	
 	//Constructor
-	public Entity(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue) {
-		this.id = id;
+	public Entity(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
 		this.name = name;
 		this.level = level;
 		this.hitPoints = hitPoints;
@@ -22,14 +20,6 @@ public abstract class Entity implements Serializable {
 	}
 	
 	//Getters and Setters
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;
