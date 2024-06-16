@@ -1,6 +1,9 @@
 package br.edu.up.allanhousequest.views;
 
 import br.edu.up.allanhousequest.utils.Utils;
+import br.edu.up.allanhousequest.models.Item;
+import br.edu.up.allanhousequest.models.Monster;
+import br.edu.up.allanhousequest.models.Player;
 
 public class PlayerView {
 
