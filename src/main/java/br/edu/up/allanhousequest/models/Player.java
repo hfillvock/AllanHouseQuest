@@ -15,7 +15,7 @@ public class Player extends Entity {
 	//Constructor
 	public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
 		super(name, level, hitPoints, attackModifier, defenseValue);
-		this.experiencePoints = 0;
+		this.experiencePoints = calculateExperienceRequired(level); // Inicializa com pontos de experiência equivalentes ao nível
 		this.inventory = new ArrayList<>();
 	}
 	
