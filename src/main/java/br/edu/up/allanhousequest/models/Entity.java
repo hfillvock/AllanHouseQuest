@@ -45,11 +45,11 @@ public abstract class Entity implements Serializable {
 		this.hitPoints = hitPoints;
 	}
 
-	public int getattackModifier() {
+	public int getAttackModifier() {
 		return attackModifier;
 	}
 
-	public void setattackModifier(int attackModifier) {
+	public void setAttackModifier(int attackModifier) {
 		this.attackModifier = attackModifier;
 	}
 
