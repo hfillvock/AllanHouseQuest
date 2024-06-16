@@ -49,17 +49,6 @@ public class RPGView {
         return ' ';
     }
 
-    public String createNewPlayer() {
-        Utils.printDivider();
-
-        Utils.printCentered("Criando personagem.");
-
-        Utils.printCentered("Insira o nome do personagem: ");
-        String name = Utils.scanLine();
-
-        return name;
-    }
-
     public void listPlayers(RPGModel model) {
         Utils.printDivider();
 

@@ -51,7 +51,8 @@ public class RPGController {
         
                     selectPlayer(view.selectPlayer());
                 } else {
-                    model.setCurrentPlayer(createNewPlayer());
+                    model.setCurrentPlayer(PlayerController.createNewPlayer());
+					model.addPlayer(model.getCurrentPlayer());
                 }
         
                 gameLoop();
@@ -61,13 +62,13 @@ public class RPGController {
 
                 switch (choice) {
                     case 'p':
-                        createNewPlayer();
+                        model.addPlayer(PlayerController.createNewPlayer());
                         break;
                     case 'm':
-                        createNewMonster();
+						model.addMonster(MonsterController.createNewMonster());
                         break;
                     case 'i':
-                        createNewItem();
+						model.addItem(ItemController.createNewItem());
                         break;
                     default:
                         break;
@@ -82,29 +83,6 @@ public class RPGController {
             return false;
         }
         return true;
-    }
-
-    public Player createNewPlayer() {
-        String name = view.createNewPlayer();
-
-        Player addedPlayer = new Player(name, 0, 100, 10, 10); //alterar valores
-
-        model.addPlayer(addedPlayer);
-        return addedPlayer;
-    }
-
-    public Monster createNewMonster() {
-        Monster addedMonster = view.createNewMonster();
-        model.addMonster(addedMonster);
-
-        return addedMonster;
-    }
-
-    public Item createNewItem() {
-        Item addedItem = view.createNewItem();
-        model.addItem(addedItem);
-
-        return addedItem;
     }
 
     private void selectPlayer(int i) {

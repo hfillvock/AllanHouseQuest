@@ -19,4 +19,11 @@ public class PlayerController {
     public void receiveDamage(){
         
     }
+
+    public static Player createNewPlayer() {
+        String name = PlayerView.createNewPlayer();
+
+        Player addedPlayer = new Player(name, 0, 100, 10, 10); //alterar valores
+        return addedPlayer;
+    }
 }

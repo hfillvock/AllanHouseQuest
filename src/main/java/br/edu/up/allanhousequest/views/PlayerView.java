@@ -4,8 +4,20 @@ import java.util.List;
 import br.edu.up.allanhousequest.models.Item;
 import br.edu.up.allanhousequest.models.Monster;
 import br.edu.up.allanhousequest.models.Player;
+import br.edu.up.allanhousequest.utils.Utils;
 
 public class PlayerView {
+    
+    public static String createNewPlayer() {
+        Utils.printDivider();
+
+        Utils.printCentered("Criando personagem.");
+
+        Utils.printCentered("Insira o nome do personagem: ");
+        String name = Utils.scanLine();
+
+        return name;
+    }
 
     // display player info
     public void displayPlayerInfo(Player player) {

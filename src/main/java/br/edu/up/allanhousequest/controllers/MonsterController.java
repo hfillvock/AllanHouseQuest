@@ -19,4 +19,9 @@ public class MonsterController {
     public void receiveDamage(){
         
     }
+
+    public static Monster createNewMonster() {
+        Monster addedMonster = MonsterView.createNewMonster();
+        return addedMonster;
+    }
 }
