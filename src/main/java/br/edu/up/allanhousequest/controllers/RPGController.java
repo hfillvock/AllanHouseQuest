@@ -131,10 +131,9 @@ public class RPGController {
     }
 
     // Versão 2
-    public void generateRoom() {
-    	Player player = model.getCurrentPlayer();
+    public void generateRoom(Player player) {
     	int roomLevel = player.getLevel();
-    	List<Monster> roomMonsters = new ArrayList<>(); // Lista de monstros com o nível equivalente ao do jogador
+    	List<Monster> roomMonsters = new ArrayList<>();
     
     	Random random  = new Random();
     	
@@ -144,10 +143,11 @@ public class RPGController {
     			roomMonsters.add(monster);
     		}
         }
-    
+    	
+    	// Geração da sala.
     	while (player.getLevel() == roomLevel) {
-    		// Seleção de um monstro aleatório da lista de monstros com o nível equivalente ao do jogador.
     		Monster monster = roomMonsters.get(random.nextInt(roomMonsters.size()));
+    		System.out.println();
     		System.out.println("Você encontrou um " + monster.getName() + "!");
     
     		//Batalha
@@ -155,9 +155,37 @@ public class RPGController {
     
     		// Verificação do nível do jogador
     		if (player.getLevel() > roomLevel) {
+    			System.out.println();
     			System.out.println("Parabéns! Você subiu de nível para o nível " + player.getLevel() + ".");
-    			// Código de recompensa da batalha.
-    			// Código para verificar se o jogador quer seguir para a próxima sala ou salvar e sair do jogo.
+    			
+    			// Próxima escolha.
+    			System.out.println();
+    			System.out.println("O que deseja fazer?");
+    			System.out.println("1 - Abrir baú");
+    			System.out.println("2 - Usar Item");
+    			System.out.println("3 - Seguir para a próxima sala");
+    			System.out.println("4 - Salvar jogo e sair");
+    			
+    			int action = Utils.scanInt();
+    			Utils.clearScannerBuffer();
+    			
+    			switch (action) {
+    		    case 1:
+    		        // Implementar lógica de abrir baú.
+    		        break;
+    		    case 2:
+    		        // Implementar lógica de uso de item.
+    		        break;
+    		    case 3:
+    		        //generateRoom(player); ?
+    		        break;
+    		    case 4:
+    		        // Implementar lógica de salvamento do jogo.
+    		        break;
+    		    default:
+    		        System.out.println("Opção Inválida. Tente novamente.");
+    		        continue;
+    			}
     		}
     
     	}
