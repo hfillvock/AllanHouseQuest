@@ -43,23 +43,18 @@ public class Monster extends Entity {
 	}
 	
 	//Methods
-	
-	public void attack(Entity target) { //desatualizado
-		int diceRoll = Utils.diceRoll();
-
+	public void attack(Entity target) {
+		int diceRoll = Utils.diceRoll(1,20);
+		
         System.out.println(getName() + " atacou " + target.getName() + "!");
-		System.out.println((diceRoll + getattackModifier()) + " (" + diceRoll + "+" + getattackModifier() + ") vs " + target.getDefenseValue());
+		System.out.println((diceRoll + getAttackModifier()) + " (" + diceRoll + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
         
-		if (diceRoll + getattackModifier() >= target.getDefenseValue()) {
+		if (diceRoll + getAttackModifier() >= target.getDefenseValue()) {
+			int damageValue = Utils.diceRoll(damageDiceQuantity, damageDice) + damageModifier;
 			target.receiveDamage(damageValue);
 			System.out.println("Droga! O ataque acertou e causou " + damageValue + " pontos de dano.");
 		} else {
 			System.out.println("Ufa! Você conseguiu desviar do ataque.");
 		}
-	}
-		
-	public void receiveDamage(int damage) {
-		setHitPoints(getHitPoints() - damage);
-	}
-
+	}		
 }
