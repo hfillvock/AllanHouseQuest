@@ -54,22 +54,17 @@ public class Player extends Entity {
 	//Methods
 	@Override
 	public void attack(Entity target) {
-		int diceRoll = Utils.diceRoll();
+		int diceRoll = Utils.diceRoll(1, 20);
         
         System.out.println(getName() + " atacou " + target.getName() + "!");
-		System.out.println((diceRoll + getattackModifier()) + " (" + diceRoll + "+" + getattackModifier() + ") vs " + target.getDefenseValue());
+		System.out.println((diceRoll + getAttackModifier()) + " (" + diceRoll + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
         
-		if (diceRoll + getattackModifier() >= target.getDefenseValue()) {
+		if (diceRoll + getAttackModifier() >= target.getDefenseValue()) {
 			target.receiveDamage(equippedWeapon.getValue());
 			System.out.println("Ataque bem-sucedido! " + equippedWeapon.getValue() + " pontos de dano causados!");
 		} else {
 			System.out.println("Ataque mal-sucedido...");
 		}
-	}
-	
-	@Override
-	public void receiveDamage(int damage) {
-		setHitPoints(getHitPoints() - damage);
 	}	
 }
 
