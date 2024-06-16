@@ -11,6 +11,7 @@ public class Player extends Entity {
 	private List<Item> inventory;
 	private Item equippedWeapon;
 	private Item equippedArmour;
+	private int testedebobo;
 	
 	//Constructor
 	public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
