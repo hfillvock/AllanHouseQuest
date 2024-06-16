@@ -9,8 +9,8 @@ public class Monster extends Entity {
 	private int damageModifier;
 	
 	//Constructor
-	public Monster(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
-		super(id, name, level, hitPoints, attackModifier, defenseValue);
+	public Monster(String name, int level, int hitPoints, int attackModifier, int defenseValue, int damageDice, int damageDiceQuantity, int damageModifier) {
+		super(name, level, hitPoints, attackModifier, defenseValue);
 		this.damageDice = damageDice;
 		this.damageDiceQuantity = damageDiceQuantity;
 		this.damageModifier = damageModifier;
