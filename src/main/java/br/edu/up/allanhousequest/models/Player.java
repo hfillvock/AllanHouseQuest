@@ -49,7 +49,7 @@ public class Player extends Entity {
     }
 
     // Método para calcular os pontos de experiência necessários para atingir um certo nível
-    public static int calculateExperienceRequired(int level) {
+    public int calculateExperienceRequired(int level) {
         // Padrão: O dobro dos pontos de experiência do nível anterior
         return (int) (Math.pow(2, level - 1) * 10);
     }
