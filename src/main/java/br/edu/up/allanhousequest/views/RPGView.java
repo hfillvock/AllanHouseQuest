@@ -2,6 +2,8 @@ package br.edu.up.allanhousequest.views;
 
 import java.util.InputMismatchException;
 
+import br.edu.up.allanhousequest.models.Item;
+import br.edu.up.allanhousequest.models.Monster;
 import br.edu.up.allanhousequest.models.RPGModel;
 import br.edu.up.allanhousequest.utils.Utils;
 
@@ -116,5 +118,13 @@ public class RPGView {
         }
 
         return ' ';
+    }
+
+    public Monster createNewMonster() {
+        
+    }
+
+    public Item createNewItem() {
+        
     }
 }

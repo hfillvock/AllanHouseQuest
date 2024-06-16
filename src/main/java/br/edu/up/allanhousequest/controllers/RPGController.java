@@ -90,12 +90,18 @@ public class RPGController {
         return addedPlayer;
     }
 
-    public void createNewMonster() {
-        
+    public Monster createNewMonster() {
+        Monster addedMonster = view.createNewMonster();
+        model.addMonster(addedMonster);
+
+        return addedMonster;
     }
 
-    public void createNewItem() {
-        
+    public Item createNewItem() {
+        Item addedItem = view.createNewItem();
+        model.addItem(addedItem);
+
+        return addedItem;
     }
 
     private void selectPlayer(int i) {
