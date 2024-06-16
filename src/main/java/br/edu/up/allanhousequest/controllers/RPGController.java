@@ -26,23 +26,16 @@ public class RPGController {
         this.itemDAO = DAOFactory.getItemDAO();
     }
 
-    public void saveGame(Player player, List<Monster> monsters, List<Item> items) {
-        playerDAO.savePlayer(player);
-
-        for (Monster monster : monsters) {
-            monsterDAO.saveMonster(monster);
-        }
-        for (Item item : items) {
-            itemDAO.saveItem(item);
-        }
-        
-        System.out.println("Game saved.");
+    public void saveGame() {
+        playerDAO.savePlayers(this.model.getPlayers());
+        monsterDAO.saveMonsters(this.model.getMonsters());
+        itemDAO.saveItems(this.model.getItems());
     }
 
-    public void loadGame(int playerId) {
-        Player player = playerDAO.loadPlayer(playerId);
-        List<Monster> monsters = monsterDAO.loadAllMonsters();
-        List<Item> items = itemDAO.loadAllItems();
+    public void loadGame() {
+        this.model.setPlayers(playerDAO.loadPlayers());
+        this.model.setMonsters(monsterDAO.loadMonsters());
+        this.model.setItems(itemDAO.loadItems());
     }
 
     public void startGame() {
@@ -55,7 +48,7 @@ public class RPGController {
         
                     selectPlayer(view.selectPlayer());
                 } else {
-                    createNewPlayer();
+                    model.setCurrentPlayer(createNewPlayer());
                 }
         
                 gameLoop();
@@ -65,10 +58,13 @@ public class RPGController {
 
                 switch (choice) {
                     case 'p':
+                        createNewPlayer();
                         break;
                     case 'm':
+                        createNewMonster();
                         break;
                     case 'i':
+                        createNewItem();
                         break;
                     default:
                         break;
@@ -85,13 +81,21 @@ public class RPGController {
         return true;
     }
 
-    public void createNewPlayer() {
+    public Player createNewPlayer() {
         String name = view.createNewPlayer();
 
-        Player addedPlayer = new Player(0, name, 100, 10, 5); //alterar valores
+        Player addedPlayer = new Player(name, 0, 100, 10, 10); //alterar valores
 
         model.addPlayer(addedPlayer);
-        model.setCurrentPlayer(addedPlayer);
+        return addedPlayer;
+    }
+
+    public void createNewMonster() {
+        
+    }
+
+    public void createNewItem() {
+        
     }
 
     private void selectPlayer(int i) {

@@ -1,21 +1,21 @@
 package br.edu.up.allanhousequest.daos;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.up.allanhousequest.models.*;
+import br.edu.up.allanhousequest.models.Monster;
 
 public class FileMonsterDAO implements MonsterDAO {
     private static final String FILE_PATH = "monsters.dat";
 
     @Override
-    public void saveMonster(Monster monster) {
-        List<Monster> monsters = loadAllMonsters();
-
-        monsters.removeIf(m -> m.getId() == monster.getId());
-        monsters.add(monster);
-
+    public void saveMonsters(List<Monster> monsters) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             out.writeObject(monsters);
         } catch (IOException e) {
@@ -24,19 +24,13 @@ public class FileMonsterDAO implements MonsterDAO {
     }
 
     @Override
-    public Monster loadMonster(int id) {
-        List<Monster> monsters = loadAllMonsters();
-        return monsters.stream().filter(m -> m.getId() == id).findFirst().orElse(null);
-    }
-
-    @Override
-    public List<Monster> loadAllMonsters() {
+    public List<Monster> loadMonsters() {
         List<Monster> monsters = new ArrayList<>();
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             monsters = (List<Monster>) in.readObject();
         } catch (FileNotFoundException e) {
-            // File not found, return empty list
+            e.printStackTrace();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

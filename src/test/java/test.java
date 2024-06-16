@@ -1,20 +1,20 @@
 import br.edu.up.allanhousequest.controllers.RPGController;
-import br.edu.up.allanhousequest.models.RPGModel;
-import br.edu.up.allanhousequest.utils.Utils;
-import br.edu.up.allanhousequest.views.RPGView;
+import br.edu.up.allanhousequest.factories.RPGFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class test {
+    protected static final Logger logger = LogManager.getLogger();
     public static void main(String[] args) {
-        
-        RPGModel rpgModel = new RPGModel();
-        RPGView rpgView = new RPGView();
-        RPGController rpgController = new RPGController(rpgModel, rpgView);
+        logger.info("hello world");
+        logger.always();
 
-        rpgController.startGame();
+        RPGController RPG = RPGFactory.getRPG();
 
-        rpgView.listPlayers(rpgModel);
+        RPG.loadGame();
 
-        Utils.printDivider();
+        RPG.startGame();
 
+        RPG.saveGame();
     }
 }

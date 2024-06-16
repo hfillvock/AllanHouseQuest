@@ -5,7 +5,6 @@ import java.util.List;
 import br.edu.up.allanhousequest.models.Monster;
 
 public interface MonsterDAO {
-    void saveMonster(Monster monster);
-    Monster loadMonster(int id);
-    List<Monster> loadAllMonsters();
+    void saveMonsters(List<Monster> monsters);
+    List<Monster> loadMonsters();
 }
