@@ -7,6 +7,7 @@ import br.edu.up.allanhousequest.utils.Utils;
 
 public class Player extends Entity {
 
+	private int experiencePoints;
 	private List<Item> inventory;
 	private Item equippedWeapon;
 	private Item equippedArmour;
@@ -14,6 +15,7 @@ public class Player extends Entity {
 	//Constructor
 	public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
 		super(name, level, hitPoints, attackModifier, defenseValue);
+		this.experiencePoints = 0;
 		this.inventory = new ArrayList<>();
 	}
 	
@@ -34,20 +36,12 @@ public class Player extends Entity {
 	public void setEquippedArmour(Item equippedArmour) {
 		this.equippedArmour = equippedArmour;
 	}
-	
-	//To String
-	@Override
-	public String toString() {
-		return "----------\n"
-				+ getName()
-				+ "\nHit Points: "
-				+ getHitPoints()
-				+ "\nAttack: "
-				+ getattackModifier()
-				+ "\nDefense: "
-				+ getDefenseValue()
-				+ "\n----------\n";
-	}
+
+	// Método para calcular os pontos de experiência necessários para atingir um certo nível
+	public static int calculateExperienceRequired(int level) {
+        	// Padrão: O dobro dos pontos de experiência do nível anterior
+        	return (int) (Math.pow(2, level - 1) * 10);
+    	}
 	
 	//Methods
 	@Override
