@@ -7,26 +7,17 @@ import br.edu.up.allanhousequest.utils.Utils;
 
 public class Player extends Entity {
 
-	private int id;
 	private List<Item> inventory;
 	private Item equippedWeapon;
 	private Item equippedArmour;
 	
 	//Constructor
-	public Player(int id, String name, int level, int hitPoints, int attackModifier, int defenseValue) {
-		super(id, name, level, hitPoints, attackModifier, defenseValue);
+	public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
+		super(name, level, hitPoints, attackModifier, defenseValue);
 		this.inventory = new ArrayList<>();
 	}
 	
 	//Getters and Setters
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Item getEquippedWeapon() {
 		return equippedWeapon;
