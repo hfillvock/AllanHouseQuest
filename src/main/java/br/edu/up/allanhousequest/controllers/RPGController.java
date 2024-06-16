@@ -153,7 +153,7 @@ public class RPGController {
     			System.out.println("3 - Seguir para a próxima sala");
     			System.out.println("4 - Salvar jogo e sair");
     			
-    			int action = Utils.scanInt()
+    			int action = Utils.scanInt();
     			Utils.clearScannerBuffer();
     			
     			switch (action) {
