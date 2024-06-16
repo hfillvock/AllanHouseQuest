@@ -112,4 +112,52 @@ public class RPGController {
     public void startBattle(Player player, Monster monster) {
         // Implementação da lógica de batalha
     }
+
+    public void generateEncounter() {
+        Player player = model.getCurrentPlayer();
+        int playerLevel = player.getLevel();
+    
+        // Generates a random number of monsters and items based on the player's level
+        Random random = new Random();
+        int numberOfMonsters = random.nextInt(playerLevel + 1) + 1; // Entre 1 e (playerLevel + 1)
+        int numberOfItems = random.nextInt(playerLevel + 1); // Entre 0 e playerLevel
+    
+        // Select random monsters and items
+        List<Monster> monsters = model.getRandomMonsters(numberOfMonsters);
+        List<Item> items = model.getRandomItems(numberOfItems);
+    
+        // Adds to the model
+        model.setEncounterMonsters(monsters);
+        model.setEncounterItems(items);
+    
+        view.displayEncounter(monsters, items);
+    }
+
+    public void startBattle(Player player, Monster monster) {
+        while (player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
+            // Player turn
+            int playerDamage = Math.max(0, player.getAttackValue() - monster.getDefenseValue());
+            monster.setHitPoints(monster.getHitPoints() - playerDamage);
+            view.displayBattleTurn(player, monster, playerDamage, true);
+            if (monster.getHitPoints() <= 0) {
+                view.displayBattleResult(player, monster, true);
+                break;
+            }
+
+            // Monster turn
+            int monsterDamage = Math.max(0, monster.getAttackValue() - player.getDefenseValue());
+            player.setHitPoints(player.getHitPoints() - monsterDamage);
+            view.displayBattleTurn(player, monster, monsterDamage, false);
+            if (player.getHitPoints() <= 0) {
+                view.displayBattleResult(player, monster, false);
+                break;
+            }
+        }
+
+        // After battle: Update player status and remove monster from encounter list
+        if (player.getHitPoints() > 0) {
+            player.gainXp(monster.getXp());
+            model.dieEncounterMonster(monster);
+        }
+    }
 }
