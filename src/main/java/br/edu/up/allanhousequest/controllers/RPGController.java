@@ -187,11 +187,11 @@ public class RPGController {
     		        continue;
     			}
     		}
-    
     	}
     
     }
 
+    // Versão 1
     public void startBattle(Player player, Monster monster) {
         while (player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
             // Player turn
@@ -219,4 +219,50 @@ public class RPGController {
             model.dieEncounterMonster(monster);
         }
     }
+
+    // Versão 2
+    public void startBattle(Player player, Monster monster) {
+		
+		//monster.getDescription();
+		while(player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
+			
+			// Player Turn
+			System.out.println();
+			System.out.println("Seu Turno! Escolha sua ação: ");
+			System.out.println("1 - Atacar");
+			System.out.println("2 - Usar Item");
+			
+			int action = Utils.scanInt();
+			Utils.clearScannerBuffer();
+			
+			switch (action) {
+		    case 1:
+		        player.attack(monster);
+		        break;
+		    case 2:
+		    	// Implementar lógica de uso de item.
+		        break;
+		    default:
+		        System.out.println("Opção Inválida. Tente novamente.");
+		        continue;
+			}
+		
+			// Verificação de derrota do monstro.
+			if (monster.getHitPoints() <= 0) {
+	            System.out.println("Você derrotou o " + monster.getName() + "!");
+	            System.out.println("Você recebeu " + monster.getExperiencePoints() + " pontos de experiência!");
+	            player.setExperiencePoints(player.getExperiencePoints() + monster.getExperiencePoints());
+	            break;
+	        }
+			
+			// Monster Turn
+			monster.attack(player);
+			
+			// Verificação de derrota do jogador.
+	        if (player.getHitPoints() <= 0) {
+	            System.out.println("Você foi derrotado pelo " + monster.getName() + "...");
+	            break;
+	        }
+		}
+	}
 }
