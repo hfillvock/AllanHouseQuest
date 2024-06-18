@@ -1,6 +1,7 @@
 package br.edu.up.allanhousequest.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -95,110 +96,31 @@ public class RPGController {
             generateRoom(model.getCurrentPlayer());
         }
     }
-
-    public void generateRoom(Player player) {
-    	int roomLevel = player.getLevel();
-    	List<Monster> roomMonsters = new ArrayList<>();
     
-    	Random random  = new Random();
-    	
-    	// Preenchimento da lista de monstros com o nível equivalente ao do jogador
-    	for (Monster monster : model.getMonsters()) {
-    		if (monster.getLevel() <= player.getLevel()) {
-    			roomMonsters.add(monster);
-    		}
+    public void useItem(Player player) {
+        List<Item> playerItems = player.getInventory();
+    
+        if (playerItems.isEmpty()) {
+            System.out.println("Você não tem itens para usar.");
+            return;
         }
-    	
-    	// Geração da sala
-    	while (player.getLevel() == roomLevel) {
-    		Monster monster = roomMonsters.get(random.nextInt(roomMonsters.size()));
-    		System.out.println();
-    		System.out.println("Você encontrou um " + monster.getName() + "!");
     
-    		//Batalha
-    		startBattle(player, monster);
+        System.out.println("Escolha um item para usar:");
+        for (int i = 0; i < playerItems.size(); i++) {
+            System.out.println((i + 1) + " - " + playerItems.get(i).getName());
+        }
     
-    		// Verificação do nível do jogador
-    		if (player.getLevel() > roomLevel) {
-    			System.out.println();
-    			System.out.println("Parabéns! Você subiu de nível para o nível " + player.getLevel() + ".");
-    			
-    			// Próxima escolha.
-    			System.out.println();
-    			System.out.println("O que deseja fazer?");
-    			System.out.println("1 - Abrir baú");
-    			System.out.println("2 - Usar Item");
-    			System.out.println("3 - Seguir para a próxima sala");
-    			System.out.println("4 - Salvar jogo e sair");
-    			
-    			int action = Utils.scanInt();
-    			Utils.clearScannerBuffer();
-    			
-    			switch (action) {
-    		    case 1:
-    		        // Implementar lógica de abrir baú.
-    		        break;
-    		    case 2:
-    		        // Implementar lógica de uso de item.
-    		        break;
-    		    case 3:
-    		        //generateRoom(player); ?
-    		        break;
-    		    case 4:
-    		        // Implementar lógica de salvamento do jogo.
-    		        break;
-    		    default:
-    		        System.out.println("Opção Inválida. Tente novamente.");
-    		        continue;
-    			}
-    		}
-    	}
+        int choice = Utils.scanInt() - 1;
+        Utils.clearScannerBuffer();
     
+        if (choice < 0 || choice >= playerItems.size()) {
+            System.out.println("Opção inválida. Tente novamente.");
+        } else {
+            Item item = playerItems.get(choice);
+            player.useItem(item);
+            playerItems.remove(choice);
+            System.out.println("Você usou o item: " + item.getName());
+        }
     }
 
-    // Versão 2
-    public void startBattle(Player player, Monster monster) {
-		
-		//monster.getDescription();
-		while(player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
-			
-			// Player Turn
-			System.out.println();
-			System.out.println("Seu Turno! Escolha sua ação: ");
-			System.out.println("1 - Atacar");
-			System.out.println("2 - Usar Item");
-			
-			int action = Utils.scanInt();
-			Utils.clearScannerBuffer();
-			
-			switch (action) {
-		    case 1:
-		        player.attack(monster);
-		        break;
-		    case 2:
-		    	// Implementar lógica de uso de item.
-		        break;
-		    default:
-		        System.out.println("Opção Inválida. Tente novamente.");
-		        continue;
-			}
-		
-			// Verificação de derrota do monstro.
-			if (monster.getHitPoints() <= 0) {
-	            System.out.println("Você derrotou o " + monster.getName() + "!");
-	            System.out.println("Você recebeu " + monster.getExperiencePoints() + " pontos de experiência!");
-	            player.setExperiencePoints(player.getExperiencePoints() + monster.getExperiencePoints());
-	            break;
-	        }
-			
-			// Monster Turn
-			monster.attack(player);
-			
-			// Verificação de derrota do jogador.
-	        if (player.getHitPoints() <= 0) {
-	            System.out.println("Você foi derrotado pelo " + monster.getName() + "...");
-	            break;
-	        }
-		}
-	}
 }

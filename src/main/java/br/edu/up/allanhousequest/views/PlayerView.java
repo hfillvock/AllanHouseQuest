@@ -23,7 +23,7 @@ public class PlayerView {
     public void displayPlayerInfo(Player player) {
         System.out.println("Player: " + player.getName());
         System.out.println("Level: " + player.getLevel());
-        System.out.println("XP: " + player.getXp() + "/" + player.getXpForNextLevel());
+        System.out.println("XP: " + player.getExperiencePoints() + "/" + player.calculateExperienceRequired(player.getLevel()));
     }
 
     public void displayEncounter(List<Monster> monsters, List<Item> items) {
