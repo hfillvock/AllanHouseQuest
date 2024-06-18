@@ -62,19 +62,10 @@ public class RPGController {
                 choice = view.createNewEntity();
 
                 switch (choice) {
-                    case 'p':
-                        model.addPlayer(PlayerController.createNewPlayer());
-                        break;
-                    case 'm':
-						model.addMonster(MonsterController.createNewMonster());
-                        break;
-                    case 'i':
-						model.addItem(ItemController.createNewItem());
-                        break;
-                    default:
-                        break;
+                    case 'p': model.addPlayer(PlayerController.createNewPlayer()); break;
+                    case 'm': model.addMonster(MonsterController.createNewMonster()); break;
+                    case 'i': model.addItem(ItemController.createNewItem()); break;
                 }
-            default:
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package br.edu.up.allanhousequest.utils;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
@@ -24,13 +25,23 @@ public class Utils {
         System.out.print("\n> ");
         char readChar = scanner.next().toLowerCase().charAt(0);
 
+        clearScannerBuffer();
+
         return readChar;
     }
 
     public static int scanInt() {
-        System.out.print("\n> ");
-
-        return scanner.nextInt();
+        while (true) {
+            try {
+                System.out.print("\n> ");
+                int readInt = scanner.nextInt();
+                return readInt;
+            } catch (InputMismatchException e) {
+                printCentered("Entrada inválida, apenas números inteiros são aceitos.");
+            } finally {
+                clearScannerBuffer();
+            }
+        }
     }
 
     public static String scanLine() {
