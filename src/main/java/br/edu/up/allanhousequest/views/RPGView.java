@@ -70,4 +70,18 @@ public class RPGView {
             }
         }
     }
+
+    public void saveGame(boolean saved) {
+        if (saved) {
+            Utils.printCentered("Jogo salvo.");
+            return;
+        }
+    }
+
+    public void loadGame(boolean loaded) {
+        if (loaded) {
+            Utils.printCentered("Jogo carregado.");
+            return;
+        }
+    }
 }

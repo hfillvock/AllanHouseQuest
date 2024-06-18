@@ -20,7 +20,7 @@ public class ChestController {
     }
 
     public void openChest(Player player) {
-        List<Item> chestItems = model.getItems();
+        List<Item> chestItems = model.getItems(); //pode ser só model.getItems()
 
         if (chestItems.isEmpty()) {
             view.displayChestEmpty();

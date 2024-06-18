@@ -3,17 +3,60 @@ package br.edu.up.allanhousequest.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.up.allanhousequest.daos.ItemDAO;
+import br.edu.up.allanhousequest.daos.MonsterDAO;
+import br.edu.up.allanhousequest.daos.PlayerDAO;
+import br.edu.up.allanhousequest.factories.DAOFactory;
+
 public class RPGModel {
     private List<Player> players;
     private List<Monster> monsters;
     private List<Item> items;
-    
     private Player currentPlayer;
+    private Boolean isRunning;
+
+    private PlayerDAO playerDAO;
+    private MonsterDAO monsterDAO;
+    private ItemDAO itemDAO;
     
     public RPGModel() {
         this.players = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.items = new ArrayList<>();
+        this.playerDAO = DAOFactory.getPlayerDAO();
+        this.monsterDAO = DAOFactory.getMonsterDAO();
+        this.itemDAO = DAOFactory.getItemDAO();
+    }
+
+    // métodos
+
+    public boolean saveGame() {
+        try {
+            playerDAO.savePlayers(this.getPlayers());
+            monsterDAO.saveMonsters(this.getMonsters());
+            itemDAO.saveItems(this.getItems());
+            return true;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+        
+    public boolean loadGame() {
+        this.setPlayers(playerDAO.loadPlayers());
+        this.setMonsters(monsterDAO.loadMonsters());
+        this.setItems(itemDAO.loadItems());
+
+        if (this.getPlayers().isEmpty() & this.getMonsters().isEmpty() & this.getItems().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void selectPlayer(int i) {
+        Player player = getPlayers().get(i);
+        setCurrentPlayer(player);
     }
 
     // players
@@ -79,4 +122,14 @@ public class RPGModel {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+   
+    // isrunning
+
+    public Boolean getIsRunning() {
+        return isRunning;
+    }
+
+    public void setIsRunning(Boolean isRunning) {
+        this.isRunning = isRunning;
+    } 
 }

@@ -12,14 +12,6 @@ public class MonsterController {
         this.view = view;
     }
 
-    public void attack() {
-
-    }
-
-    public void receiveDamage(){
-        
-    }
-
     public static Monster createNewMonster() {
         Monster addedMonster = MonsterView.createNewMonster();
         return addedMonster;

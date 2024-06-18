@@ -12,14 +12,6 @@ public class PlayerController {
         this.view = view;
     }
 
-    public void attack() {
-
-    }
-
-    public void receiveDamage(){
-        
-    }
-
     public static Player createNewPlayer() {
         String name = PlayerView.createNewPlayer();
 

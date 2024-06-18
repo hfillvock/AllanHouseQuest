@@ -15,31 +15,17 @@ public class RPGController {
     private RPGModel model;
     private RPGView view;
 
-    private PlayerDAO playerDAO;
-    private MonsterDAO monsterDAO;
-    private ItemDAO itemDAO;
-
-    public Boolean isRunning;
-
     public RPGController(RPGModel model, RPGView view) {
         this.model = model;
         this.view = view;
-        this.isRunning = false;
-        this.playerDAO = DAOFactory.getPlayerDAO();
-        this.monsterDAO = DAOFactory.getMonsterDAO();
-        this.itemDAO = DAOFactory.getItemDAO();
     }
 
     public void saveGame() {
-        playerDAO.savePlayers(this.model.getPlayers());
-        monsterDAO.saveMonsters(this.model.getMonsters());
-        itemDAO.saveItems(this.model.getItems());
+        view.saveGame(model.saveGame());
     }
 
     public void loadGame() {
-        this.model.setPlayers(playerDAO.loadPlayers());
-        this.model.setMonsters(monsterDAO.loadMonsters());
-        this.model.setItems(itemDAO.loadItems());
+        view.loadGame(model.loadGame());
     }
 
     public void startGame() {
@@ -50,7 +36,7 @@ public class RPGController {
                 if (hasPlayers()) {
                     view.listPlayers(model);
         
-                    selectPlayer(view.selectPlayer());
+                    model.selectPlayer(view.selectPlayer());
                 } else {
                     model.setCurrentPlayer(PlayerController.createNewPlayer());
 					model.addPlayer(model.getCurrentPlayer());
@@ -69,21 +55,16 @@ public class RPGController {
                 break;
         }
     }
-    
+
     public boolean hasPlayers() {
         if (model.getPlayers().isEmpty()) {
             return false;
         }
         return true;
     }
-
-    private void selectPlayer(int i) {
-        Player player = model.getPlayers().get(i);
-        model.setCurrentPlayer(player);
-    }
     
     public void gameLoop() {
-        while(isRunning == true) {
+        while(model.getIsRunning() == true) {
             generateRoom(model.getCurrentPlayer());
         }
     }
