@@ -8,8 +8,7 @@ public class Chest implements Serializable{
     private List<Item> items;
 
     // Construtor
-    public Chest(List<Item> items) {
-        this.items = items;
+    public Chest() {
     }
 
     // Getters e Setters
