@@ -21,6 +21,7 @@ public class RPGController {
     }
 
     public void saveGame() {
+        model.addPlayer(model.getCurrentPlayer());
         view.saveGame(model.saveGame());
     }
 
@@ -39,7 +40,6 @@ public class RPGController {
                     model.selectPlayer(view.selectPlayer());
                 } else {
                     model.setCurrentPlayer(PlayerController.createNewPlayer());
-					model.addPlayer(model.getCurrentPlayer());
                 }
         
                 gameLoop();
