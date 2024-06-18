@@ -1,5 +1,6 @@
 package br.edu.up.allanhousequest.daos;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +14,16 @@ import br.edu.up.allanhousequest.models.Player;
 
 public class FilePlayerDAO implements PlayerDAO {
     private static final String FILE_PATH = "players.dat";
+    private static File file;
+
+    public FilePlayerDAO() {
+        try {
+            file = new File(FILE_PATH);
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void savePlayers(List<Player> players) {
@@ -26,6 +37,10 @@ public class FilePlayerDAO implements PlayerDAO {
     @Override
     public List<Player> loadPlayers() {
         List<Player> players = new ArrayList<>();
+
+        if (file.length() == 0) {
+            return players;
+        }
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             players = (List<Player>) in.readObject();

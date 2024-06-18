@@ -1,12 +1,7 @@
 package br.edu.up.allanhousequest.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import br.edu.up.allanhousequest.factories.*;
-import br.edu.up.allanhousequest.daos.*;
 import br.edu.up.allanhousequest.models.*;
 import br.edu.up.allanhousequest.utils.Utils;
 import br.edu.up.allanhousequest.views.*;
@@ -36,8 +31,7 @@ public class RPGController {
             case 'i':
                 if (hasPlayers()) {
                     view.listPlayers(model);
-        
-                    model.selectPlayer(view.selectPlayer());
+                    model.selectPlayer(view.selectPlayer(model) - 1);
                 } else {
                     model.setCurrentPlayer(PlayerController.createNewPlayer());
                 }
@@ -64,9 +58,11 @@ public class RPGController {
     }
     
     public void gameLoop() {
+        /*
         while(model.getIsRunning() == true) {
             generateRoom(model.getCurrentPlayer());
         }
+        */
     }
     
     public void useItem(Player player) {

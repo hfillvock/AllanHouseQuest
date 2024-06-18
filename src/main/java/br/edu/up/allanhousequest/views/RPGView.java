@@ -37,18 +37,24 @@ public class RPGView {
         Utils.printCentered("Listando personagens: \n");
 
         for (int i = 0; i < model.getPlayers().size(); i++) {
-            System.out.println(i + ":\n" + model.getPlayers().get(i));
+            System.out.println("Personagem " + (i + 1) + ":\n" + model.getPlayers().get(i).toString() + "\n");
         }
     }
 
-    public int selectPlayer() {
-        Utils.printDivider();
+    public int selectPlayer(RPGModel model) {
+        int i = 0;
 
-        Utils.printCentered("Escolhendo personagem.");
+        while (i < 1 || i > model.getPlayers().size()) {
+            Utils.printDivider();
 
-        Utils.printCentered("Insira o índice do personagem.");
-        int i = Utils.scanInt();
-        
+            Utils.printCentered("Escolhendo personagem.");
+            Utils.printCentered("Insira o índice do personagem.");
+            i = Utils.scanInt();
+
+            if (i < 1 || i > model.getPlayers().size()) {
+                Utils.printCentered("Entrada inválida. Tentando denovo:");
+            }
+        }
         return i;
     }
 

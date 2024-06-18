@@ -89,4 +89,9 @@ public class Player extends Entity {
             System.out.println("Tipo de item desconhecido.");
         }
     }
+
+    @Override
+    public String toString() {
+        return super.getName() + "\nNível: " + super.getLevel() + "\nHP: " + super.getHitPoints() + "\nXP: " + experiencePoints;
+    }
 }

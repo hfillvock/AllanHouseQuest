@@ -9,6 +9,7 @@ public class Utils {
     
     public static Scanner scanner = new Scanner(System.in);
     public static StringUtils strUtils = new StringUtils();
+    public final static int width = 96;
 
     public static int diceRoll(int diceQuantity, int diceNumber) {
         Random random  = new Random();
@@ -52,14 +53,13 @@ public class Utils {
 
     public static void printDivider() {
         System.out.println();
-        for (int i = 0; i < 96; i++) {
+        for (int i = 0; i < width; i++) {
             System.out.print("#");
         }
         System.out.println("\n");
     }
 
     public static void printCentered(String text) {
-        int width = 96;
         String centeredText = StringUtils.center(text, width);
         System.out.println(centeredText);
     }

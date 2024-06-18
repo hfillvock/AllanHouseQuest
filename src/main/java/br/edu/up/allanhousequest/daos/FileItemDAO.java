@@ -1,5 +1,6 @@
 package br.edu.up.allanhousequest.daos;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +14,16 @@ import br.edu.up.allanhousequest.models.Item;
 
 public class FileItemDAO implements ItemDAO {
     private static final String FILE_PATH = "items.dat";
+    private static File file;
+
+    public FileItemDAO() {
+        try {
+            file = new File(FILE_PATH);
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void saveItems(List<Item> items) {
@@ -26,6 +37,10 @@ public class FileItemDAO implements ItemDAO {
     @Override
     public List<Item> loadItems() {
         List<Item> items = new ArrayList<>();
+
+        if (file.length() == 0) {
+            return items;
+        }
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             items = (List<Item>) in.readObject();
