@@ -7,8 +7,12 @@ import java.io.Serializable;
 public class Chest implements Serializable{
     private List<Item> items;
 
-    // Construtor
-    public Chest() {
+    // Constructors
+    public Chest(){
+    }
+
+    public Chest(List<Item> items) {
+        this.items = items;
     }
 
     // Getters e Setters
