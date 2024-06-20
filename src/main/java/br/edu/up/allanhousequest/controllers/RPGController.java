@@ -17,6 +17,8 @@ public class RPGController {
         this.view = view;
     }
 
+    // -----------------------------------------------------------
+
     public void saveGame() {
         model.addPlayer(model.getCurrentPlayer());
         view.saveGame(model.saveGame());
@@ -26,137 +28,141 @@ public class RPGController {
         view.loadGame(model.loadGame());
     }
 
+    // -----------------------------------------------------------
+
     public void startGame() {
-        char choice = view.mainMenu();
+        boolean pass = false;
 
-        switch (choice) {
-            case 'i':
-                if (hasPlayers()) {
-                    view.listPlayers(model);
-                    model.selectPlayer(view.selectPlayer(model) - 1);
-                } else {
-                    model.setCurrentPlayer(PlayerController.createNewPlayer());
-                }
-        
-                gameLoop();
-                break;
-            case 'c':
-                choice = view.createNewEntity();
+        while (!pass) {
+            char choice = view.mainMenu();
 
-                switch (choice) {
-                    case 'p': model.addPlayer(PlayerController.createNewPlayer()); break;
-                    case 'm': model.addMonster(MonsterController.createNewMonster()); break;
-                    case 'i': model.addItem(ItemController.createNewItem()); break;
-                }
-                break;
+            switch (choice) {
+                case 'i':
+                    model.setIsRunning(true);
+
+                    if (!model.getPlayers().isEmpty()) {
+                        view.listPlayers(model.getPlayers());
+                        
+                        int i = -1;
+                        while (i < model.getPlayers().size() || i > model.getPlayers().size()) {
+                            i = view.selectPlayer(model.getPlayers());
+
+                            if (i < model.getPlayers().size() || i > model.getPlayers().size()) {
+                                view.displayInvalidOption();
+                            }
+                        }
+
+                        model.selectPlayer((i - 1));
+                    } else {
+                        model.setCurrentPlayer(createNewPlayer());
+                    }
+            
+                    gameLoop();
+                    break;
+                case 'c': createNewEntity(); break;
+                case 's': pass = true; break;
+                default: view.displayInvalidOption(); break;
+            }
         }
-    }
-
-    public boolean hasPlayers() {
-        if (model.getPlayers().isEmpty()) {
-            return false;
-        }
-        return true;
     }
     
     public void gameLoop() {
-        /*
         while(model.getIsRunning() == true) {
-            generateRoom(model.getCurrentPlayer());
+            generateRoom();
         }
-        */
     }
-    
-    public void generateRoom(Player player, RPGModel model) {
-        int roomLevel = player.getLevel();
-        List<Monster> roomMonsters = new ArrayList<>();
-        Chest chest = generateChest(player, model);
 
-        Random random = new Random();
+    public void endGame() {
+        model.setIsRunning(false);
+        view.endGame();
+    }
+
+    // -----------------------------------------------------------
+    
+    public void generateRoom() {
+        Room room = new Room(model.getCurrentPlayer().getLevel());
+        // Chest chest = generateChest(model.getCurrentPlayer(), model); pode ser em outro lugar
 
         // Preenchimento da lista de monstros com o nível equivalente ao do jogador
-        for (Monster monster : model.getMonsters()) {
-            if (monster.getLevel() <= player.getLevel()) {
-                roomMonsters.add(monster);
-            }
+        room.fillWithMonsters(model.getMonsters());
+
+        while (model.getCurrentPlayer().getLevel() <= room.getLevel()) {
+            // escolhe um monstro aleatório dentre os possíveis da sala e inicia batalha
+            Monster pickedMonster = room.getMonsters().get(Utils.random.nextInt(room.getMonsters().size()));
+            startBattle(pickedMonster);
         }
 
-        // Geração da sala
-        while (player.getLevel() == roomLevel) {
-            Monster monster = roomMonsters.get(random.nextInt(roomMonsters.size()));
-            view.displayMonsterEncounter(monster);
+        view.displayLevelUp(model.getCurrentPlayer().getLevel());
 
-            // Batalha
-            startBattle(player, monster);
+        boolean pass = false;
 
-            // Verificação do nível do jogador
-            if (player.getLevel() > roomLevel) {
-                view.displayLevelUp(player.getLevel());
-                view.displayOptions();
+        while (!pass) {
+            char choice = view.displayOptions();
 
-                int action = view.getUserAction();
-
-                switch (action) {
-                    case 1:
-                        openChest(player);
-                        break;
-                    case 2:
-                        useItem(player);
-                        break;
-                    case 3:
-                        generateRoom(player, model);
-                        break;
-                    case 4:
-                        saveGame();
-                        break;
-                    default:
-                        view.displayInvalidOption();
-                        break;
-                }
+            switch (choice) {
+                case 'a':
+                    openChest(model.getCurrentPlayer());
+                    pass = true;
+                    break;
+                case 'u':
+                    useItem(model.getCurrentPlayer());
+                    pass = true;    
+                    break;
+                case 's':
+                    saveGame();
+                    pass = true;
+                    break;
+                case 'c': return; // gameLoop toma conta de gerar mais uma sala
+                default: view.displayInvalidOption(); break;
             }
         }
     }
 
-    public void startBattle(Player player, Monster monster) {
-        while (player.getHitPoints() > 0 && monster.getHitPoints() > 0) {
+    public void startBattle(Monster monster) {
+        view.displayMonsterEncounter(monster);
+
+        while (model.getCurrentPlayer().getHitPoints() > 0 || monster.getHitPoints() > 0) {
             // Player Turn
-            System.out.println();
-            System.out.println("Seu Turno! Escolha sua ação: ");
-            System.out.println("1 - Atacar");
-            System.out.println("2 - Usar Item");
-    
-            int action = Utils.scanInt();
-            Utils.clearScannerBuffer();
-    
-            switch (action) {
-                case 1:
-                    player.attack(monster);
-                    break;
-                case 2:
-                    useItem(player);
-                    break;
-                default:
-                    System.out.println("Opção Inválida. Tente novamente.");
-                    continue;
+            boolean pass = false;
+
+            while (!pass) {
+                char choice = view.displayYourBattleTurn();
+            
+                switch (choice) {
+                    case 'a':
+                        callAttack(model.getCurrentPlayer(), monster);
+                        pass = true;
+                        break;
+                    case 'u':
+                        useItem(model.getCurrentPlayer());
+                        pass = true;
+                        break;
+                    default: view.displayInvalidOption(); break;
+                }
             }
     
             // Verificação de derrota do monstro.
             if (monster.getHitPoints() <= 0) {
-                System.out.println("Você derrotou o " + monster.getName() + "!");
-                System.out.println("Você recebeu " + monster.getExperiencePoints() + " pontos de experiência!");
-                player.setExperiencePoints(player.getExperiencePoints() + monster.getExperiencePoints());
+                view.displayDefeatedMonsterMessage(monster);
+                model.getCurrentPlayer().setExperiencePoints(model.getCurrentPlayer().getExperiencePoints() + monster.getExperiencePoints());
                 break;
             }
     
             // Monster Turn
-            monster.attack(player);
+            callAttack(monster, model.getCurrentPlayer());
     
             // Verificação de derrota do jogador.
-            if (player.getHitPoints() <= 0) {
-                System.out.println("Você foi derrotado pelo " + monster.getName() + "...");
+            if (model.getCurrentPlayer().getHitPoints() <= 0) {
+                view.displayPlayerDiedMessage(monster);
+                endGame();
                 break;
             }
         }
+    }
+
+    private void callAttack(Entity attacker, Entity target) {
+        // diceRoll(); talvez
+        view.displayAttackResult(attacker.attack(target)); // pede pra displayAttackResult imprimir um texto com alguma variável retornada do attack da entidade
     }
 
     private Chest generateChest(Player player, RPGModel model) {
@@ -221,6 +227,36 @@ public class RPGController {
             playerItems.remove(choice);
             System.out.println("Você usou o item: " + item.getName());
         }
+    }
+
+    // createNew
+    
+    public void createNewEntity() {
+        while (true) {
+            char choice = view.createNewEntity();
+    
+            switch (choice) {
+                case 'p': model.addPlayer(createNewPlayer()); break;
+                case 'm': model.addMonster(createNewMonster()); break;
+                case 'i': model.addItem(createNewItem()); break;
+                default: view.displayInvalidOption();
+            }
+        }
+    }
+
+    public Player createNewPlayer() {
+        Player addedPlayer = view.createNewPlayer();
+        return addedPlayer;
+    }
+
+    public Monster createNewMonster() {
+        Monster addedMonster = view.createNewMonster();
+        return addedMonster;
+    }
+
+    public Item createNewItem() {
+        Item addedItem = view.createNewItem();
+        return addedItem;
     }
 
 }

@@ -1,3 +1,0 @@
-usar métodos de scan e print de Utils, a fim de padronização e controle de entrada fácil
-
-buscar fazer controllers chamarem métodos que realmente fazem alguma coisa dos models, e chamarem view para imprimir para o usuário

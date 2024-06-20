@@ -9,10 +9,10 @@ public class Utils {
     
     public static Scanner scanner = new Scanner(System.in);
     public static StringUtils strUtils = new StringUtils();
+    public static Random random  = new Random();
     public final static int width = 96;
 
     public static int diceRoll(int diceQuantity, int diceNumber) {
-        Random random  = new Random();
         int diceRoll = 0;
         
         for (int i = 0; i < diceQuantity; i++) {

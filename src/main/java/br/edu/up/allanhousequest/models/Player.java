@@ -16,7 +16,7 @@ public class Player extends Entity {
     public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
         super(name, level, hitPoints, attackModifier, defenseValue);
         this.experiencePoints = calculateExperienceRequired(level); // Inicializa com pontos de experiência equivalentes ao nível
-        this.inventory = new ArrayList<>();
+        inventory = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -57,13 +57,13 @@ public class Player extends Entity {
     // Methods
     @Override
     public void attack(Entity target) {
-        int diceRoll = Utils.diceRoll(1, 20);
+        int rolledDice = Utils.diceRoll(1, 20);
 
         System.out.println(getName() + " atacou " + target.getName() + "!");
-        System.out.println((diceRoll + getAttackModifier()) + " (" + diceRoll + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
+        System.out.println((rolledDice + getAttackModifier()) + " (" + rolledDice + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
 
         int damage = (equippedWeapon != null) ? equippedWeapon.getValue() : getAttackModifier();
-        if (diceRoll + getAttackModifier() >= target.getDefenseValue()) {
+        if (rolledDice + getAttackModifier() >= target.getDefenseValue()) {
             target.receiveDamage(damage);
             System.out.println("Ataque bem-sucedido! " + damage + " pontos de dano causados!");
         } else {
