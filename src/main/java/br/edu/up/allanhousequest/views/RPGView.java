@@ -30,6 +30,11 @@ public class RPGView {
         return Utils.scanFirstChar();
     }
 
+    public void startingText(Player player) {
+        Utils.printDivider();
+        Utils.printCentered("Bem vindo a casa de Allan House, " + player.getName() + ".");
+    }
+
     public void endGame() {
         Utils.printDivider();
         Utils.printCentered("Fim de jogo.");
@@ -41,11 +46,11 @@ public class RPGView {
         Utils.printCentered("Listando personagens: \n");
 
         for (int i = 0; i < players.size(); i++) {
-            System.out.println("Personagem " + (i + 1) + ":\n" + players.get(i).toString() + "\n");
+            System.out.println("Personagem " + (i + 1) + ":\n" + players.get(i) + "\n");
         }
     }
 
-    public int selectPlayer(List<Player> players) {
+    public int selectPlayer() {
         Utils.printDivider();
 
         Utils.printCentered("Escolhendo personagem.");
@@ -138,7 +143,7 @@ public class RPGView {
     public char displayYourBattleTurn() {
         Utils.printDivider();
 
-        Utils.printCentered("Seu Turno! Escolha sua ação: ");
+        Utils.printCentered("Seu turno! Escolha sua ação: ");
         Utils.printCentered("[A]tacar");
         Utils.printCentered("[U]sar Item");
 
@@ -175,10 +180,11 @@ public class RPGView {
     public char createNewEntity() {
         Utils.printDivider();
 
-        Utils.printCentered("Que tipo de entidade deseja criar?\n");
+        Utils.printCentered("Criando entidade.\n");
         Utils.printCentered("[P]ersonagem");
         Utils.printCentered("[M]onstro");
         Utils.printCentered("[I]tem");
+        Utils.printCentered("[V]oltar");
 
         return Utils.scanFirstChar();
     }

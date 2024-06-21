@@ -38,26 +38,26 @@ public class RPGController {
 
             switch (choice) {
                 case 'i':
-                    model.setIsRunning(true);
-
-                    if (!model.getPlayers().isEmpty()) {
+                    if (model.getPlayers().isEmpty()) {
+                        model.addPlayer(createNewPlayer());
+                        model.setCurrentPlayer(model.getPlayers().get(0));
+                    } else {
                         view.listPlayers(model.getPlayers());
                         
                         int i = -1;
-                        while (i < model.getPlayers().size() || i > model.getPlayers().size()) {
-                            i = view.selectPlayer(model.getPlayers());
+                        while (i < 1 || i > model.getPlayers().size()) {
+                            i = view.selectPlayer();
 
-                            if (i < model.getPlayers().size() || i > model.getPlayers().size()) {
+                            if (i < 1 || i > model.getPlayers().size()) {
                                 view.displayInvalidOption();
                             }
                         }
 
                         model.selectPlayer((i - 1));
-                    } else {
-                        model.setCurrentPlayer(createNewPlayer());
                     }
-            
+
                     gameLoop();
+                    pass = true;
                     break;
                 case 'c': createNewEntity(); break;
                 case 's': pass = true; break;
@@ -67,6 +67,10 @@ public class RPGController {
     }
     
     public void gameLoop() {
+        model.setIsRunning(true);
+
+        view.startingText(model.getCurrentPlayer());
+
         while(model.getIsRunning() == true) {
             generateRoom();
         }
@@ -232,13 +236,16 @@ public class RPGController {
     // createNew
     
     public void createNewEntity() {
-        while (true) {
+        boolean pass = false;
+
+        while (!pass) {
             char choice = view.createNewEntity();
     
             switch (choice) {
                 case 'p': model.addPlayer(createNewPlayer()); break;
                 case 'm': model.addMonster(createNewMonster()); break;
                 case 'i': model.addItem(createNewItem()); break;
+                case 'v': pass = true; break;
                 default: view.displayInvalidOption();
             }
         }

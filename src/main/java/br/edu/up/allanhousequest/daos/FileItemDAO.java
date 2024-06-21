@@ -27,10 +27,12 @@ public class FileItemDAO implements ItemDAO {
 
     @Override
     public void saveItems(List<Item> items) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-            out.writeObject(items);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!items.isEmpty()) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+                out.writeObject(items);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
