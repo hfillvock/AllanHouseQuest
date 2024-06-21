@@ -9,8 +9,8 @@ public class Player extends Entity {
 
     private int experiencePoints;
     private List<Item> inventory;
-    private Item equippedWeapon;
-    private Item equippedArmour;
+    private Weapon equippedWeapon;
+    private Armour equippedArmour;
 
     // Constructor
     public Player(String name, int level, int hitPoints, int attackModifier, int defenseValue) {
@@ -28,19 +28,19 @@ public class Player extends Entity {
         this.experiencePoints = experiencePoints;
     }
 
-    public Item getEquippedWeapon() {
+    public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
 
-    public void setEquippedWeapon(Item equippedWeapon) {
+    public void setEquippedWeapon(Weapon equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
     }
 
-    public Item getEquippedArmour() {
+    public Armour getEquippedArmour() {
         return equippedArmour;
     }
 
-    public void setEquippedArmour(Item equippedArmour) {
+    public void setEquippedArmour(Armour equippedArmour) {
         this.equippedArmour = equippedArmour;
     }
 
@@ -48,13 +48,12 @@ public class Player extends Entity {
         return inventory;
     }
 
-    // Método para calcular os pontos de experiência necessários para atingir um certo nível
+    // Methods
     public int calculateExperienceRequired(int level) {
         // Padrão: O dobro dos pontos de experiência do nível anterior
         return (int) (Math.pow(2, level - 1) * 10);
     }
-
-    // Methods
+    
     @Override
     public void attack(Entity target) {
         int rolledDice = Utils.diceRoll(1, 20);
@@ -62,7 +61,7 @@ public class Player extends Entity {
         System.out.println(getName() + " atacou " + target.getName() + "!");
         System.out.println((rolledDice + getAttackModifier()) + " (" + rolledDice + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
 
-        int damage = (equippedWeapon != null) ? equippedWeapon.getValue() : getAttackModifier();
+        int damage = Utils.diceRoll(getEquippedWeapon().getDamageDiceQuantity(), getEquippedWeapon().getDamageDice());
         if (rolledDice + getAttackModifier() >= target.getDefenseValue()) {
             target.receiveDamage(damage);
             System.out.println("Ataque bem-sucedido! " + damage + " pontos de dano causados!");
@@ -75,6 +74,7 @@ public class Player extends Entity {
         inventory.add(item);
     }
 
+    /*
     public void useItem(Item item) {
         if (item.getType().equals("HealthPotion")) {
             this.setHitPoints(this.getHitPoints() + item.getValue());
@@ -89,7 +89,8 @@ public class Player extends Entity {
             System.out.println("Tipo de item desconhecido.");
         }
     }
-
+    */
+    
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nHP: " + super.getHitPoints() + "\nXP: " + experiencePoints;

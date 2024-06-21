@@ -19,7 +19,6 @@ public class Monster extends Entity {
 	}
 	
 	//Getters and Setters
-
 	public int getExperiencePoints() {
 		return experiencePoints;
 	}
@@ -56,7 +55,7 @@ public class Monster extends Entity {
 	public void attack(Entity target) {
 		int diceRoll = Utils.diceRoll(1,20);
 		
-        	System.out.println(getName() + " atacou " + target.getName() + "!");
+        System.out.println(getName() + " atacou " + target.getName() + "!");
 		System.out.println((diceRoll + getAttackModifier()) + " (" + diceRoll + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
         
 		if (diceRoll + getAttackModifier() >= target.getDefenseValue()) {

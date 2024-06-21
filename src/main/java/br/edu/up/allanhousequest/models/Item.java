@@ -5,10 +5,12 @@ import java.io.Serializable;
 public abstract class Item implements Serializable{
 	
 	private String name;
+	private int level;
 	
 	//Constructor
-	public Item(String name) {
+	public Item(String name, int level) {
 		this.name = name;
+		this.level = level;
 	}
 	
 	//Getters and Setters
@@ -20,10 +22,19 @@ public abstract class Item implements Serializable{
 		this.name = name;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	@Override
 	public String toString() {
 		return "Item [name=" + name +"]";
 	}
 	
-	public abstract void useItem();
+	//Methods
+	public abstract void useItem(Player player);
 }

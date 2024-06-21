@@ -28,9 +28,7 @@ public class Room {
         this.monsters = monsters;
     }
 
-    // métodos
-
-    // Preenchimento da lista de monstros com o nível equivalente ao do jogador
+    //Methods
     public void fillWithMonsters(List<Monster> allMonsters) {
         for (Monster monster : allMonsters) {
             if (monster.getLevel() <= level) {

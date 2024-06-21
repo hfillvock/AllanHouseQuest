@@ -91,7 +91,7 @@ public class RPGController {
         room.fillWithMonsters(model.getMonsters());
 
         while (model.getCurrentPlayer().getLevel() <= room.getLevel()) {
-            // escolhe um monstro aleatório dentre os possíveis da sala e inicia batalha
+            // Escolhe um monstro aleatório dentre os possíveis da sala e inicia batalha
             Monster pickedMonster = room.getMonsters().get(Utils.random.nextInt(room.getMonsters().size()));
             startBattle(pickedMonster);
         }
@@ -177,14 +177,15 @@ public class RPGController {
     
          // Preenchimento da lista de itens compatíveis com o nível equivalente ao do jogador
             for (Item item : model.getItems()) {
-                // Implementar a lógica que correlaciona o nível do jogador com o "nível" dos itens
-                chestPossibleItems.add(item);
+                if (item.getLevel() <= chestLevel) {
+                    chestPossibleItems.add(item);
+                }
             }
     
             Random random = new Random();
     
-            // Define a quantidade de itens no baú, por exemplo, entre 1 e 3 itens
-            int numberOfItems = random.nextInt(3) + 1;
+            // Define a quantidade de itens no baú, por exemplo, entre 1 e 4 itens
+            int numberOfItems = random.nextInt(4) + 1;
     
             for (int i = 0; i < numberOfItems; i++) {
                 Item randomItem = chestPossibleItems.get(random.nextInt(chestPossibleItems.size()));
@@ -227,7 +228,7 @@ public class RPGController {
             System.out.println("Opção inválida. Tente novamente.");
         } else {
             Item item = playerItems.get(choice);
-            player.useItem(item);
+            item.useItem(player);
             playerItems.remove(choice);
             System.out.println("Você usou o item: " + item.getName());
         }

@@ -4,25 +4,34 @@ public class Weapon extends Item{
     private int damageDice;
     private int damageDiceQuantity;
 
-    public Weapon(String name, int damageDice, int damageDiceQuantity){
-        super(name);
+    //Constructor
+    public Weapon(String name, int level, int damageDice, int damageDiceQuantity){
+        super(name, level);
         this.damageDice = damageDice;
         this.damageDiceQuantity = damageDiceQuantity;
     }
-    public int getdamageDice(){
+
+    //Getters and Setters
+    public int getDamageDice(){
         return damageDice;
     }
-    public void setdamageDice(int damageDice){
+
+    public void setDamageDice(int damageDice){
         this.damageDice = damageDice;
     }
-    public int getdamageDiceQuantity(){
+
+    public int getDamageDiceQuantity(){
         return damageDiceQuantity;
     }
+
     public void setdamageDiceQuantity(int damageDiceQuantity){
         this.damageDiceQuantity = damageDiceQuantity;
     }
-    public void useItem(){
-        
+
+    //Methods
+    @Override
+    public void useItem(Player player) {
+        player.setEquippedWeapon(this);
     }
 
 }

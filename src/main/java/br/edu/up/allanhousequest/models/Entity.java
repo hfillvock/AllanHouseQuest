@@ -20,7 +20,6 @@ public abstract class Entity implements Serializable {
 	}
 	
 	//Getters and Setters
-	
 	public String getName() {
 		return name;
 	}
@@ -66,6 +65,5 @@ public abstract class Entity implements Serializable {
 		setHitPoints(getHitPoints() - damage);
 	}
 	
-	// Abstract Methods
 	public abstract void attack(Entity target);
 }

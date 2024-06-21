@@ -3,17 +3,23 @@ package br.edu.up.allanhousequest.models;
 public class Armour extends Item{
     private int armourClass;
 
-    public Armour(String name, int armourClass){
-        super(name);
+    //Constructor
+    public Armour(String name, int level, int armourClass){
+        super(name, level);
         this.armourClass = armourClass;
     }
+
+    //Getters and Setters
     public int getarmourClass(){
-        return armourClass;
+        return armourClass; 
     }
     public void setarmourClass(int armourcClass){
         this.armourClass = armourcClass;
     }
-    public void useItem(){
-        
+    
+    //Methods
+    @Override
+    public void useItem(Player player) {
+        player.setEquippedArmour(this);
     }
 }
