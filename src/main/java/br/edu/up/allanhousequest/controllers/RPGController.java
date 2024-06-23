@@ -20,7 +20,9 @@ public class RPGController {
     // -----------------------------------------------------------
 
     public void saveGame() {
-        model.addPlayer(model.getCurrentPlayer());
+        if (model.getCurrentPlayer() != null) {
+            model.addPlayer(model.getCurrentPlayer());
+        }
         view.saveGame(model.saveGame());
     }
 
@@ -39,27 +41,24 @@ public class RPGController {
             switch (choice) {
                 case 'i':
                     if (model.getPlayers().isEmpty()) {
-                        model.addPlayer(createNewPlayer());
+                        createNewPlayer();
                         model.setCurrentPlayer(model.getPlayers().get(0));
                     } else {
                         view.listPlayers(model.getPlayers());
                         
-                        int i = -1;
-                        while (i < 1 || i > model.getPlayers().size()) {
-                            i = view.selectPlayer();
+                        int i = view.selectPlayer();
 
-                            if (i < 1 || i > model.getPlayers().size()) {
-                                view.displayInvalidOption();
-                            }
+                        while (!isValidPlayerIndex(i)) {
+                            i = view.selectPlayer();
                         }
 
-                        model.selectPlayer((i - 1));
+                        model.selectPlayer((i));
                     }
 
                     gameLoop();
                     pass = true;
                     break;
-                case 'c': createNewEntity(); break;
+                case 'a': manageEntities(); break;
                 case 's': pass = true; break;
                 default: view.displayInvalidOption(); break;
             }
@@ -134,7 +133,7 @@ public class RPGController {
             
                 switch (choice) {
                     case 'a':
-                        callAttack(model.getCurrentPlayer(), monster);
+                        callPlayerAttack(model.getCurrentPlayer(), monster);
                         pass = true;
                         break;
                     case 'u':
@@ -153,7 +152,7 @@ public class RPGController {
             }
     
             // Monster Turn
-            callAttack(monster, model.getCurrentPlayer());
+            callMonsterAttack(monster, model.getCurrentPlayer());
     
             // Verificação de derrota do jogador.
             if (model.getCurrentPlayer().getHitPoints() <= 0) {
@@ -163,11 +162,43 @@ public class RPGController {
             }
         }
     }
+    
+    private void callPlayerAttack(Player player, Monster monster) { // CORRIGIR CÁLCULO DE ATAQUE E MENSAGENS
+        int rolledDice = Utils.diceRoll(1, 20);
 
-    private void callAttack(Entity attacker, Entity target) {
-        // diceRoll(); talvez
-        view.displayAttackResult(attacker.attack(target)); // pede pra displayAttackResult imprimir um texto com alguma variável retornada do attack da entidade
+        view.displayInitialAttackStats(player, monster, rolledDice);
+
+        // calcula o dano, CORRIGIR!!!!!!!
+        int damage = Utils.diceRoll(getEquippedWeapon().getDamageDiceQuantity(), getEquippedWeapon().getDamageDice());
+
+        // chama os respectivos views caso o ataque tenha sucesso ou não
+        if (rolledDice + getAttackModifier() >= monster.getDefenseValue()) {
+            monster.receiveDamage(damage);
+            view.displayAttackResult(true, damage);
+
+        } else {
+            view.displayAttackResult(false, 0);
+        }
     }
+
+    /* ARRUMAR O CÁLCULO DE ATAQUE PRA QUANDO FOR O MONSTRO ATACANDO E TALVEZ FAZER OS MÉTODOS DE VIEW DIFERENTES
+    private void callMonsterAttack(Monster monster, Player player) {
+        int rolledDice = Utils.diceRoll(1, 20);
+
+        view.displayInitialAttackStats(monster, player, rolledDice);
+
+        // calcula o dano só que pro monstro
+        int damage = Utils.diceRoll(getEquippedWeapon().getDamageDiceQuantity(), getEquippedWeapon().getDamageDice());
+
+        if (rolledDice + getAttackModifier() >= player.getDefenseValue()) {
+            player.receiveDamage(damage);
+            view.displayAttackResult(true, damage);
+
+        } else {
+            view.displayAttackResult(false, 0);
+        }
+    }
+    */
 
     private Chest generateChest(Player player, RPGModel model) {
         int chestLevel = player.getLevel();
@@ -234,8 +265,51 @@ public class RPGController {
         }
     }
 
-    // createNew
+    // manage
+
+    public boolean isValidPlayerIndex(int i) {
+        if (i < 0 || i > model.getPlayers().size()) {
+            view.displayInvalidOption();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidMonsterIndex(int i) {
+        if (i < 0 || i > model.getMonsters().size()) {
+            view.displayInvalidOption();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidItemIndex(int i) {
+        if (i < 0 || i > model.getItems().size()) {
+            view.displayInvalidOption();
+            return false;
+        }
+        return true;
+    }
     
+    public void manageEntities() {
+        boolean pass = false;
+
+        while (!pass) {
+            char choice = view.manageEntities();
+    
+            switch (choice) {
+                case 'c': createNewEntity(); break;
+                case 'r': removeEntity(); break;
+                case 'e': editEntity(); break;
+                case 'l': listEntity(); break;
+                case 'v': pass = true; break;
+                default: view.displayInvalidOption();
+            }
+        }
+    }
+    
+    // create
+
     public void createNewEntity() {
         boolean pass = false;
 
@@ -243,28 +317,201 @@ public class RPGController {
             char choice = view.createNewEntity();
     
             switch (choice) {
-                case 'p': model.addPlayer(createNewPlayer()); break;
-                case 'm': model.addMonster(createNewMonster()); break;
-                case 'i': model.addItem(createNewItem()); break;
+                case 'p': createNewPlayer(); break;
+                case 'm': createNewMonster(); break;
+                case 'i': createNewItem(); break;
                 case 'v': pass = true; break;
                 default: view.displayInvalidOption();
             }
         }
     }
 
-    public Player createNewPlayer() {
-        Player addedPlayer = view.createNewPlayer();
-        return addedPlayer;
+    public void createNewPlayer() {
+        model.getPlayers().add(view.createNewPlayer());
     }
 
-    public Monster createNewMonster() {
-        Monster addedMonster = view.createNewMonster();
-        return addedMonster;
+    public void createNewMonster() {
+        model.getMonsters().add(view.createNewMonster());
     }
 
-    public Item createNewItem() {
-        Item addedItem = view.createNewItem();
-        return addedItem;
+    public void createNewItem() {
+        model.getItems().add(view.createNewItem());
+    }
+    
+    // remove
+
+    public void removeEntity() {
+        boolean pass = false;
+
+        while (!pass) {
+            char choice = view.removeEntity();
+    
+            switch (choice) {
+                case 'p': removePlayer(); break;
+                case 'm': removeMonster(); break;
+                case 'i': removeItem(); break;
+                case 'v': pass = true; break;
+                default: view.displayInvalidOption();
+            }
+        }
     }
 
+    public void removePlayer() {
+        if (model.getPlayers().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.removePlayer();
+
+        while (!isValidPlayerIndex(i)) {
+            i = view.removePlayer();
+        }
+
+        model.getPlayers().remove(i);
+    }
+
+    public void removeMonster() {
+        if (model.getMonsters().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.removeMonster();
+
+        while (!isValidMonsterIndex(i)) {
+            i = view.removeMonster();
+        }
+
+        model.getMonsters().remove(i);
+    }
+
+    public void removeItem() {
+        if (model.getItems().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.removeItem();
+
+        while (!isValidItemIndex(i)) {
+            i = view.removeItem();
+        }
+
+        model.getItems().remove(i);
+    }
+
+    // edit
+
+    public void editEntity() {
+        boolean pass = false;
+
+        while (!pass) {
+            char choice = view.editEntity();
+    
+            switch (choice) {
+                case 'p': editPlayer(); break;
+                case 'm': editMonster(); break;
+                case 'i': editItem(); break;
+                case 'v': pass = true; break;
+                default: view.displayInvalidOption();
+            }
+        }
+    }
+
+    public void editPlayer() {
+        if (model.getPlayers().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.editPlayer();
+
+        while (!isValidPlayerIndex(i)) {
+            i = view.editPlayer();
+        }
+
+        Player newPlayer = view.createNewPlayer();
+
+        model.getPlayers().set(i, newPlayer);
+    }
+
+    public void editMonster() {
+        if (model.getMonsters().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.editMonster();
+
+        while (!isValidMonsterIndex(i)) {
+            i = view.editMonster();
+        }
+
+        Monster newMonster = view.createNewMonster();
+
+        model.getMonsters().set(i, newMonster);
+    }
+
+    public void editItem() {
+        if (model.getItems().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        int i = view.editItem();
+
+        while (!isValidItemIndex(i)) {
+            i = view.editItem();
+        }
+
+        Item newItem = view.createNewItem();
+
+        model.getItems().set(i, newItem);
+    }
+
+    // list
+
+    public void listEntity() {
+        boolean pass = false;
+
+        while (!pass) {
+            char choice = view.listEntity();
+    
+            switch (choice) {
+                case 'p': listPlayers(); break;
+                case 'm': listMonsters(); break;
+                case 'i': listItems(); break;
+                case 'v': pass = true; break;
+                default: view.displayInvalidOption();
+            }
+        }
+    }
+
+    public void listPlayers() {
+        if (model.getPlayers().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        view.listPlayers(model.getPlayers());
+    }
+
+    public void listMonsters() {
+        if (model.getMonsters().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        view.listMonsters(model.getMonsters());
+    }
+
+    public void listItems() {
+        if (model.getItems().isEmpty()) {
+            view.noEntitiesMessage();
+            return;
+        }
+
+        view.listItems(model.getItems());
+    }
 }

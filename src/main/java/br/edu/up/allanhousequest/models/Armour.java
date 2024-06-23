@@ -22,4 +22,9 @@ public class Armour extends Item{
     public void useItem(Player player) {
         player.setEquippedArmour(this);
     }
+
+    @Override
+    public String toString() {
+        return super.getName() + "\nNível: " + super.getLevel() + "\nClasse: " + armourClass;
+    }
 }

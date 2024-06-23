@@ -10,10 +10,11 @@ public class Potion extends Item{
     }
 
     //Constructor
-    public Potion(String name, int level, int potionDice, int potionDiceQuantity){
+    public Potion(String name, int level, int potionDice, int potionDiceQuantity, Type type){
         super(name, level);
         this.potionDice = potionDice;
         this.potionDiceQuantity = potionDiceQuantity;
+        this.type = type;
     }
 
     //Getters and Setters
@@ -44,5 +45,10 @@ public class Potion extends Item{
     //Methods
     @Override
     public void useItem(Player player) {
+    }
+
+    @Override
+    public String toString() {
+        return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity + "\nTipo: " + type;
     }
 }

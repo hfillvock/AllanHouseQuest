@@ -34,4 +34,8 @@ public class Weapon extends Item{
         player.setEquippedWeapon(this);
     }
 
+    @Override
+    public String toString() {
+        return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + damageDice + "\nQuant. dados: " + damageDiceQuantity;
+    }
 }

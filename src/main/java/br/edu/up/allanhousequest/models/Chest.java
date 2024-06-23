@@ -1,5 +1,6 @@
 package br.edu.up.allanhousequest.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ public class Chest implements Serializable{
 
     // Constructors
     public Chest(){
+        items = new ArrayList<>();
     }
 
     public Chest(List<Item> items) {

@@ -65,5 +65,10 @@ public class Monster extends Entity {
 		} else {
 			System.out.println("Ufa! Você conseguiu desviar do ataque.");
 		}
-	}		
+	}
+
+	@Override
+    public String toString() {
+        return super.getName() + "\nNível: " + super.getLevel()+ "\nHP: " + super.getHitPoints() + "\nATK MOD: " + super.getAttackModifier() + "\nDEF: " + super.getDefenseValue() + "\nXP: " + experiencePoints + "\nDado: " + damageDice + "\nQuant. dados: " + damageDiceQuantity + "\nDMG MOD: " + damageModifier;
+    }
 }
