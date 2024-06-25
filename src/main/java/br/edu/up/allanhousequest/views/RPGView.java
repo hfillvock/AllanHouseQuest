@@ -8,7 +8,6 @@ import br.edu.up.allanhousequest.models.Item;
 import br.edu.up.allanhousequest.models.Monster;
 import br.edu.up.allanhousequest.models.Player;
 import br.edu.up.allanhousequest.models.Potion;
-import br.edu.up.allanhousequest.models.Potion.Type;
 import br.edu.up.allanhousequest.models.Weapon;
 import br.edu.up.allanhousequest.utils.Utils;
 
@@ -216,20 +215,13 @@ public class RPGView {
 
                 return new Weapon(name, level, damageDice, damageDiceQuantity);
             case 3:
-                Utils.printCentered("Insira o tipo da poção: ");
-                Utils.printCentered("\"HEALING\"");
-                Utils.printCentered("\"ATTACK\"");
-                Utils.printCentered("\"DEFENSE\"");
-                Utils.printCentered("\"DAMAGE\"");
-                Type type = Type.valueOf(Utils.scanLine());
-
                 Utils.printCentered("Insira o dado da poção:");
                 int potionDice = Utils.scanInt();
                 
                 Utils.printCentered("Insira a quantidade de dados da poção:");
                 int potionDiceQuantity = Utils.scanInt();
 
-                return new Potion(name, level, potionDice, potionDiceQuantity, type);
+                return new Potion(name, level, potionDice, potionDiceQuantity);
         }
         
         return null;
