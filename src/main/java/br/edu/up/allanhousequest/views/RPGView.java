@@ -400,4 +400,8 @@ public class RPGView {
     public void displayEquippedWeapon() {
         Utils.printCentered("A arma foi equipada.");
     }
+
+    public void displayHealAmount(int healAmount) {
+        Utils.printCentered("Curado em " + healAmount + " HP.");
+    }
 }

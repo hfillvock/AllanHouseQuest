@@ -30,12 +30,6 @@ public class Potion extends Item{
         this.potionDiceQuantity = potionDiceQuantity;
     }
 
-    //Methods
-    @Override
-    public void useItem(Player player) {
-        player.setHitPoints(player.getHitPoints() + Utils.diceRoll(potionDiceQuantity, potionDice));
-    }
-
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity;

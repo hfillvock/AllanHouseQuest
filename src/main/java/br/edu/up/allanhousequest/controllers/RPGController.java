@@ -248,15 +248,27 @@ public class RPGController {
             i = view.selectItem();
         }
 
+        Item selectedItem = model.getCurrentPlayer().getInventory().get(i);
+
         Armour armour = new Armour(null, 0, 0);
         Weapon weapon = new Weapon(null, 0, 0, 0);
+        Potion potion = new Potion(null, 0, 0, 0);
 
-        if (model.getCurrentPlayer().getInventory().get(i).getClass() == armour.getClass()) {
-            model.getCurrentPlayer().setEquippedArmour(model.getCurrentPlayer().getInventory().get(i));
+        if (selectedItem.getClass() == armour.getClass()) {
+            model.getCurrentPlayer().setEquippedArmour(selectedItem);
             view.displayEquippedArmour();
-        } else if (model.getCurrentPlayer().getInventory().get(i).getClass() == weapon.getClass()) {
-            model.getCurrentPlayer().setEquippedWeapon(model.getCurrentPlayer().getInventory().get(i));
+        } else if (selectedItem.getClass() == weapon.getClass()) {
+            model.getCurrentPlayer().setEquippedWeapon(selectedItem);
             view.displayEquippedWeapon();
+        } else if (selectedItem.getClass() == potion.getClass()) {
+            Potion selectedPotion = (Potion) selectedItem;
+
+            int healAmount = Utils.diceRoll(selectedPotion.getPotionDiceQuantity(), selectedPotion.getPotionDice());
+
+            model.getCurrentPlayer().setHitPoints(model.getCurrentPlayer().getHitPoints() + healAmount);
+            model.getCurrentPlayer().getInventory().remove(i);
+            
+            view.displayHealAmount(healAmount);
         }
     }
 
