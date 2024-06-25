@@ -1,7 +1,5 @@
 package br.edu.up.allanhousequest.models;
 
-import br.edu.up.allanhousequest.utils.Utils;
-
 public class Monster extends Entity {
 
 	private int experiencePoints;
@@ -49,22 +47,6 @@ public class Monster extends Entity {
 
 	public void setDamageModifier(int damageModifier) {
 		this.damageModifier = damageModifier;
-	}
-	
-	//Methods
-	public void attack(Entity target) {
-		int diceRoll = Utils.diceRoll(1,20);
-		
-        System.out.println(getName() + " atacou " + target.getName() + "!");
-		System.out.println((diceRoll + getAttackModifier()) + " (" + diceRoll + "+" + getAttackModifier() + ") vs " + target.getDefenseValue());
-        
-		if (diceRoll + getAttackModifier() >= target.getDefenseValue()) {
-			int damageValue = Utils.diceRoll(damageDiceQuantity, damageDice) + damageModifier;
-			target.receiveDamage(damageValue);
-			System.out.println("Droga! O ataque acertou e causou " + damageValue + " pontos de dano.");
-		} else {
-			System.out.println("Ufa! Você conseguiu desviar do ataque.");
-		}
 	}
 
 	@Override

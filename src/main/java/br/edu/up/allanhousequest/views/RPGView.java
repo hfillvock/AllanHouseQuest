@@ -171,7 +171,7 @@ public class RPGView {
         Utils.printCentered("Insira o nome do personagem: ");
         String name = Utils.scanLine();
 
-        Player player = new Player(name, 0, 100, 10, 10); // mudar valores
+        Player player = new Player(name, 1);
         return player;
     }
 

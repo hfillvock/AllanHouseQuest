@@ -1,7 +1,5 @@
 package br.edu.up.allanhousequest.models;
 
-import br.edu.up.allanhousequest.utils.Utils;
-
 public class Potion extends Item{
     private int potionDice;
     private int potionDiceQuantity;
@@ -31,11 +29,6 @@ public class Potion extends Item{
     }
 
     //Methods
-    @Override
-    public void useItem(Player player) {
-        player.setHitPoints(player.getHitPoints() + Utils.diceRoll(potionDiceQuantity, potionDice));
-    }
-
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity;
