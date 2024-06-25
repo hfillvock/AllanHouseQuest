@@ -1,31 +1,19 @@
 package br.edu.up.allanhousequest.models;
 
+import br.edu.up.allanhousequest.utils.Utils;
+
 public class Potion extends Item{
-    private Type type;
     private int potionDice;
     private int potionDiceQuantity;
 
-    public enum Type {
-        HEALING, ATTACK, DEFENSE, DAMAGE;
-    }
-
     //Constructor
-    public Potion(String name, int level, int potionDice, int potionDiceQuantity, Type type){
+    public Potion(String name, int level, int potionDice, int potionDiceQuantity) {
         super(name, level);
         this.potionDice = potionDice;
         this.potionDiceQuantity = potionDiceQuantity;
-        this.type = type;
     }
 
     //Getters and Setters
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public int getPotionDice() {
         return potionDice;
     }
@@ -45,10 +33,11 @@ public class Potion extends Item{
     //Methods
     @Override
     public void useItem(Player player) {
+        player.setHitPoints(player.getHitPoints() + Utils.diceRoll(potionDiceQuantity, potionDice));
     }
 
     @Override
     public String toString() {
-        return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity + "\nTipo: " + type;
+        return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity;
     }
 }
