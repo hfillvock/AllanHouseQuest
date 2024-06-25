@@ -1,7 +1,5 @@
 package br.edu.up.allanhousequest.models;
 
-import br.edu.up.allanhousequest.utils.Utils;
-
 public class Potion extends Item{
     private int potionDice;
     private int potionDiceQuantity;
@@ -30,6 +28,7 @@ public class Potion extends Item{
         this.potionDiceQuantity = potionDiceQuantity;
     }
 
+    //Methods
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + potionDice + "\nQuant. dados: " + potionDiceQuantity;

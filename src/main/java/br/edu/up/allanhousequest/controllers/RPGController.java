@@ -8,7 +8,7 @@ import br.edu.up.allanhousequest.models.*;
 import br.edu.up.allanhousequest.utils.Utils;
 import br.edu.up.allanhousequest.views.*;
 
-public class RPGController {
+    public class RPGController {
     private RPGModel model;
     private RPGView view;
 
@@ -166,16 +166,14 @@ public class RPGController {
         }
     }
     
-    private void callPlayerAttack(Player player, Monster monster) { // CORRIGIR CÁLCULO DE ATAQUE E MENSAGENS
+    private void callPlayerAttack(Player player, Monster monster) {
         int rolledDice = Utils.diceRoll(1, 20);
 
         view.displayInitialAttackStats(player, monster, rolledDice);
 
-        // calcula o dano, CORRIGIR!!!!!!!
-        int damage = Utils.diceRoll(getEquippedWeapon().getDamageDiceQuantity(), getEquippedWeapon().getDamageDice());
+        int damage = Utils.diceRoll(player.getEquippedWeapon().getDamageDiceQuantity(), player.getEquippedWeapon().getDamageDice());
 
-        // chama os respectivos views caso o ataque tenha sucesso ou não
-        if (rolledDice + getAttackModifier() >= monster.getDefenseValue()) {
+        if (rolledDice + player.getAttackModifier() >= monster.getDefenseValue()) {
             monster.receiveDamage(damage);
             view.displayAttackResult(true, damage);
 
@@ -184,16 +182,14 @@ public class RPGController {
         }
     }
 
-    /* ARRUMAR O CÁLCULO DE ATAQUE PRA QUANDO FOR O MONSTRO ATACANDO E TALVEZ FAZER OS MÉTODOS DE VIEW DIFERENTES
     private void callMonsterAttack(Monster monster, Player player) {
         int rolledDice = Utils.diceRoll(1, 20);
 
         view.displayInitialAttackStats(monster, player, rolledDice);
 
-        // calcula o dano só que pro monstro
-        int damage = Utils.diceRoll(getEquippedWeapon().getDamageDiceQuantity(), getEquippedWeapon().getDamageDice());
+        int damage = Utils.diceRoll(monster.getDamageDiceQuantity(), monster.getDamageDice()) + monster.getDamageModifier();
 
-        if (rolledDice + getAttackModifier() >= player.getDefenseValue()) {
+        if (rolledDice + monster.getAttackModifier()>= player.getDefenseValue()) {
             player.receiveDamage(damage);
             view.displayAttackResult(true, damage);
 
@@ -201,7 +197,6 @@ public class RPGController {
             view.displayAttackResult(false, 0);
         }
     }
-    */
 
     private Chest generateChest() {
         Chest chest = new Chest(model.getCurrentPlayer().getLevel());
