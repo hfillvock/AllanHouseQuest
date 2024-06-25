@@ -5,19 +5,26 @@ import java.util.List;
 import java.io.Serializable;
 
 
-public class Chest implements Serializable{
+public class Chest implements Serializable {
+    private List<Item> possibleItems;
     private List<Item> items;
+    private int level;
 
     // Constructors
-    public Chest(){
+    public Chest(int level) {
+        possibleItems = new ArrayList<>();
         items = new ArrayList<>();
+        this.level = level;
     }
 
-    public Chest(List<Item> items) {
-        this.items = items;
+    public List<Item> getPossibleItems() {
+        return possibleItems;
     }
 
-    // Getters e Setters
+    public void setPossibleItems(List<Item> possibleItems) {
+        this.possibleItems = possibleItems;
+    }
+
     public List<Item> getItems() {
         return items;
     }
@@ -26,8 +33,13 @@ public class Chest implements Serializable{
         this.items = items;
     }
 
-    @Override
-    public String toString() {
-        return "Chest [items=" + items + "]";
+    public int getLevel() {
+        return level;
     }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    
 }

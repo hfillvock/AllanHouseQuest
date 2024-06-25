@@ -17,12 +17,6 @@ public class Armour extends Item{
         this.armourClass = armourcClass;
     }
     
-    //Methods
-    @Override
-    public void useItem(Player player) {
-        player.setEquippedArmour(this);
-    }
-
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nClasse: " + armourClass;

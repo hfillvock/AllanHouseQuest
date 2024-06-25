@@ -34,7 +34,4 @@ public abstract class Item implements Serializable{
 	public String toString() {
 		return "Item [name=" + name +"]";
 	}
-	
-	//Methods
-	public abstract void useItem(Player player);
 }

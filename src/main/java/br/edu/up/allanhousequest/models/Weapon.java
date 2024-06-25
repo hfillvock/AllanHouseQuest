@@ -27,13 +27,7 @@ public class Weapon extends Item{
     public void setdamageDiceQuantity(int damageDiceQuantity){
         this.damageDiceQuantity = damageDiceQuantity;
     }
-
-    //Methods
-    @Override
-    public void useItem(Player player) {
-        player.setEquippedWeapon(this);
-    }
-
+    
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nDado: " + damageDice + "\nQuant. dados: " + damageDiceQuantity;

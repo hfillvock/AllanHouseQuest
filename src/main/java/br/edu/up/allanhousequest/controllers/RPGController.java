@@ -33,6 +33,8 @@ public class RPGController {
     // -----------------------------------------------------------
 
     public void startGame() {
+        loadGame();
+
         boolean pass = false;
 
         while (!pass) {
@@ -60,7 +62,7 @@ public class RPGController {
                     pass = true;
                     break;
                 case 'a': manageEntities(); break;
-                case 's': pass = true; break;
+                case 's': saveGame(); pass = true; break;
                 default: view.displayInvalidOption(); break;
             }
         }
@@ -86,7 +88,7 @@ public class RPGController {
     
     public void generateRoom() {
         Room room = new Room(model.getCurrentPlayer().getLevel());
-        // Chest chest = generateChest(model.getCurrentPlayer(), model); pode ser em outro lugar
+        Chest chest = generateChest();
 
         // Preenchimento da lista de monstros com o nível equivalente ao do jogador
         room.fillWithMonsters(model.getMonsters());
@@ -106,11 +108,11 @@ public class RPGController {
 
             switch (choice) {
                 case 'a':
-                    openChest(model.getCurrentPlayer());
+                    openChest(chest);
                     pass = true;
                     break;
                 case 'u':
-                    useItem(model.getCurrentPlayer());
+                    useItem();
                     pass = true;    
                     break;
                 case 's':
@@ -139,7 +141,7 @@ public class RPGController {
                         pass = true;
                         break;
                     case 'u':
-                        useItem(model.getCurrentPlayer());
+                        useItem();
                         pass = true;
                         break;
                     default: view.displayInvalidOption(); break;
@@ -151,10 +153,9 @@ public class RPGController {
                 view.displayDefeatedMonsterMessage(monster);
                 model.getCurrentPlayer().setExperiencePoints(model.getCurrentPlayer().getExperiencePoints() + monster.getExperiencePoints());
                 break;
+            } else {
+                callMonsterAttack(monster, model.getCurrentPlayer()); // Monster Turn
             }
-    
-            // Monster Turn
-            callMonsterAttack(monster, model.getCurrentPlayer());
     
             // Verificação de derrota do jogador.
             if (model.getCurrentPlayer().getHitPoints() <= 0) {
@@ -202,68 +203,60 @@ public class RPGController {
     }
     */
 
-    private Chest generateChest(Player player, RPGModel model) {
-        int chestLevel = player.getLevel();
-    
-        List<Item> chestPossibleItems = new ArrayList<>();
-        List<Item> chestItems = new ArrayList<>();
+    private Chest generateChest() {
+        Chest chest = new Chest(model.getCurrentPlayer().getLevel());
     
          // Preenchimento da lista de itens compatíveis com o nível equivalente ao do jogador
-            for (Item item : model.getItems()) {
-                if (item.getLevel() <= chestLevel) {
-                    chestPossibleItems.add(item);
-                }
+        for (Item item : model.getItems()) {
+            if (item.getLevel() <= chest.getLevel()) {
+                chest.getPossibleItems().add(item);
             }
+        }
     
-            Random random = new Random();
-    
-            // Define a quantidade de itens no baú, por exemplo, entre 1 e 4 itens
-            int numberOfItems = random.nextInt(4) + 1;
-    
-            for (int i = 0; i < numberOfItems; i++) {
-                Item randomItem = chestPossibleItems.get(random.nextInt(chestPossibleItems.size()));
-                chestItems.add(randomItem);
-            }
-    
-            return new Chest(chestItems);
-    }
-    
-    public void openChest(Player player) {
-            List<Item> chestItems = model.getItems();
-    
-            if (chestItems.isEmpty()) {
-                view.displayChestEmpty();
-            } else {
-                view.displayChestItems(chestItems);
-                for (Item item : chestItems) {
-                    player.addItem(item);
-                }
-            }
+        int numberOfItems = Utils.random.nextInt(4) + 1;
+
+        for (int i = 0; i < numberOfItems; i++) {
+            Item randomItem = chest.getPossibleItems().get(Utils.random.nextInt(chest.getPossibleItems().size()));
+            chest.getItems().add(randomItem);
         }
 
-    public void useItem(Player player) {
-        List<Item> playerItems = player.getInventory();
+        return chest;
+    }
     
-        if (playerItems.isEmpty()) {
-            System.out.println("Você não tem itens para usar.");
+    public void openChest(Chest chest) {
+        if (chest.getItems().isEmpty()) {
+            view.displayChestEmpty();
+        } else {
+            view.displayChestItems(chest.getItems());
+            for (Item item : chest.getItems()) {
+                model.getCurrentPlayer().getInventory().add(item);
+            }
+        }
+    }
+
+    public void useItem() {    
+        if (model.getCurrentPlayer().getInventory().isEmpty()) {
+            view.noItemsAvailable();
             return;
         }
-    
-        System.out.println("Escolha um item para usar:");
-        for (int i = 0; i < playerItems.size(); i++) {
-            System.out.println((i + 1) + " - " + playerItems.get(i).getName());
+        
+        view.listItems(model.getCurrentPlayer().getInventory());
+
+        int i = view.selectItem();
+
+        while (!isValidItemIndex(i)) {
+            i = view.selectItem();
         }
-    
-        int choice = Utils.scanInt() - 1;
-        Utils.clearScannerBuffer();
-    
-        if (choice < 0 || choice >= playerItems.size()) {
-            System.out.println("Opção inválida. Tente novamente.");
-        } else {
-            Item item = playerItems.get(choice);
-            item.useItem(player);
-            playerItems.remove(choice);
-            System.out.println("Você usou o item: " + item.getName());
+
+        Armour armour = new Armour(null, 0, 0);
+        Weapon weapon = new Weapon(null, 0, 0, 0);
+
+        if (model.getCurrentPlayer().getInventory().get(i).getClass() == armour.getClass()) {
+            model.getCurrentPlayer().setEquippedArmour(model.getCurrentPlayer().getInventory().get(i));
+            view.displayEquippedArmour();
+        } else if (model.getCurrentPlayer().getInventory().get(i).getClass() == weapon.getClass()) {
+            model.getCurrentPlayer().setEquippedWeapon(model.getCurrentPlayer().getInventory().get(i));
+            view.displayEquippedWeapon();
         }
     }
 

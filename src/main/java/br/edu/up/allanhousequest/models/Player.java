@@ -32,16 +32,16 @@ public class Player extends Entity {
         return equippedWeapon;
     }
 
-    public void setEquippedWeapon(Weapon equippedWeapon) {
-        this.equippedWeapon = equippedWeapon;
+    public void setEquippedWeapon(Item equippedWeapon) {
+        this.equippedWeapon = (Weapon) equippedWeapon;
     }
 
     public Armour getEquippedArmour() {
         return equippedArmour;
     }
 
-    public void setEquippedArmour(Armour equippedArmour) {
-        this.equippedArmour = equippedArmour;
+    public void setEquippedArmour(Item equippedArmour) {
+        this.equippedArmour = (Armour) equippedArmour;
     }
 
     public List<Item> getInventory() {
