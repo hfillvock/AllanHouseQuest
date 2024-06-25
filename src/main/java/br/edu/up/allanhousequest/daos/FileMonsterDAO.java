@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.up.allanhousequest.models.Monster;
+import br.edu.up.allanhousequest.utils.Utils;
 
 public class FileMonsterDAO implements MonsterDAO {
     private static final String FILE_PATH = "monsters.dat";
@@ -23,6 +24,8 @@ public class FileMonsterDAO implements MonsterDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Utils.logger.info("Arquivo de monstros inicializado.");
     }
 
     @Override
@@ -34,6 +37,8 @@ public class FileMonsterDAO implements MonsterDAO {
                 e.printStackTrace();
             }
         }
+
+        Utils.logger.info("Arquivo de monstros salvo.");
     }
 
     @Override
@@ -41,6 +46,7 @@ public class FileMonsterDAO implements MonsterDAO {
         List<Monster> monsters = new ArrayList<>();
 
         if (file.length() == 0) {
+            Utils.logger.info("Arquivo de monstros vazio, nada foi carregado.");
             return monsters;
         }
 
@@ -52,6 +58,7 @@ public class FileMonsterDAO implements MonsterDAO {
             e.printStackTrace();
         }
         
+        Utils.logger.info("Arquivo de monstros carregado.");
         return monsters;
     }
 }

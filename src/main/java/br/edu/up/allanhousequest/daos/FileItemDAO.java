@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.up.allanhousequest.models.Item;
+import br.edu.up.allanhousequest.utils.Utils;
 
 public class FileItemDAO implements ItemDAO {
     private static final String FILE_PATH = "items.dat";
@@ -23,7 +24,9 @@ public class FileItemDAO implements ItemDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+
+        Utils.logger.info("Arquivo de itens inicializado.");
+    }   
 
     @Override
     public void saveItems(List<Item> items) {
@@ -33,6 +36,8 @@ public class FileItemDAO implements ItemDAO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            Utils.logger.info("Arquivo de itens salvo.");
         }
     }
 
@@ -41,6 +46,7 @@ public class FileItemDAO implements ItemDAO {
         List<Item> items = new ArrayList<>();
 
         if (file.length() == 0) {
+            Utils.logger.info("Arquivo de itens vazio, nada foi carregado.");
             return items;
         }
 
@@ -51,7 +57,8 @@ public class FileItemDAO implements ItemDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
+
+        Utils.logger.info("Arquivo de itens carregado.");
         return items;
     }
 }

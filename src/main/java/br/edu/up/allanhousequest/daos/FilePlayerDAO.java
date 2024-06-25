@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.up.allanhousequest.models.Player;
+import br.edu.up.allanhousequest.utils.Utils;
 
 public class FilePlayerDAO implements PlayerDAO {
     private static final String FILE_PATH = "players.dat";
@@ -23,6 +24,8 @@ public class FilePlayerDAO implements PlayerDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Utils.logger.info("Arquivo de jogadores inicializado.");
     }
 
     @Override
@@ -34,6 +37,8 @@ public class FilePlayerDAO implements PlayerDAO {
                 e.printStackTrace();
             }
         }
+
+        Utils.logger.info("Arquivo de jogadores salvo.");
     }
 
     @Override
@@ -41,6 +46,7 @@ public class FilePlayerDAO implements PlayerDAO {
         List<Player> players = new ArrayList<>();
 
         if (file.length() == 0) {
+            Utils.logger.info("Arquivo de jogadores vazio, nada foi carregado.");
             return players;
         }
 
@@ -51,7 +57,8 @@ public class FilePlayerDAO implements PlayerDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
+
+        Utils.logger.info("Arquivo de jogadores carregado.");        
         return players;
     }
 }

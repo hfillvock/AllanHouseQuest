@@ -55,6 +55,7 @@ public class RPGController {
                         model.selectPlayer((i));
                     }
 
+                    Utils.logger.info("Jogo iniciado com jogador" + model.getCurrentPlayer().getName() + ".");
                     gameLoop();
                     pass = true;
                     break;
@@ -76,6 +77,7 @@ public class RPGController {
     }
 
     public void endGame() {
+        Utils.logger.info("Jogo encerrado.");
         model.setIsRunning(false);
         view.endGame();
     }
@@ -268,7 +270,7 @@ public class RPGController {
     // manage
 
     public boolean isValidPlayerIndex(int i) {
-        if (i < 0 || i > model.getPlayers().size()) {
+        if (i < 0 || i >= model.getPlayers().size()) {
             view.displayInvalidOption();
             return false;
         }
@@ -276,7 +278,7 @@ public class RPGController {
     }
 
     public boolean isValidMonsterIndex(int i) {
-        if (i < 0 || i > model.getMonsters().size()) {
+        if (i < 0 || i >= model.getMonsters().size()) {
             view.displayInvalidOption();
             return false;
         }
@@ -284,7 +286,7 @@ public class RPGController {
     }
 
     public boolean isValidItemIndex(int i) {
-        if (i < 0 || i > model.getItems().size()) {
+        if (i < 0 || i >= model.getItems().size()) {
             view.displayInvalidOption();
             return false;
         }

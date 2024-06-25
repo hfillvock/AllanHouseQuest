@@ -4,13 +4,16 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Utils {
-    
+
+    public static final Logger logger = LogManager.getLogger();
     public static Scanner scanner = new Scanner(System.in);
     public static StringUtils strUtils = new StringUtils();
     public static Random random  = new Random();
-    public final static int width = 96;
+    public final static int width = 118;
 
     public static int diceRoll(int diceQuantity, int diceNumber) {
         int diceRoll = 0;

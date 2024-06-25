@@ -7,6 +7,7 @@ import br.edu.up.allanhousequest.daos.ItemDAO;
 import br.edu.up.allanhousequest.daos.MonsterDAO;
 import br.edu.up.allanhousequest.daos.PlayerDAO;
 import br.edu.up.allanhousequest.factories.DAOFactory;
+import br.edu.up.allanhousequest.utils.Utils;
 
 public class RPGModel {
     private List<Player> players;
@@ -35,11 +36,13 @@ public class RPGModel {
             playerDAO.savePlayers(this.getPlayers());
             monsterDAO.saveMonsters(this.getMonsters());
             itemDAO.saveItems(this.getItems());
+            Utils.logger.info("Jogo salvo.");
             return true;            
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+
     }
         
     public boolean loadGame() {
@@ -50,6 +53,7 @@ public class RPGModel {
         if (this.getPlayers().isEmpty() & this.getMonsters().isEmpty() & this.getItems().isEmpty()) {
             return false;
         } else {
+            Utils.logger.info("Jogo carregado.");
             return true;
         }
     }
