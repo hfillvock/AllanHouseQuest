@@ -6,6 +6,7 @@ import java.util.List;
 public class Player extends Entity {
 
     private int experiencePoints;
+    private int experienceRequired;
     private List<Item> inventory;
     private Weapon equippedWeapon;
     private Armour equippedArmour;
@@ -15,8 +16,9 @@ public class Player extends Entity {
         super(name, level);
         this.setHitPoints(10 * level);
         this.setAttackModifier((level/2) * 5);
+        this.experiencePoints = 0;
         
-        this.experiencePoints = calculateExperienceRequired(level); // Inicializa com pontos de experiência equivalentes ao nível
+        this.experienceRequired = calculateExperienceRequired(level); // Inicializa com pontos de experiência equivalentes ao nível
         
         inventory = new ArrayList<>();
         this.equippedWeapon = new Weapon("Espada Curta", 1, 6, 1);
@@ -28,6 +30,7 @@ public class Player extends Entity {
     }
 
     // Getters and Setters
+
     public int getExperiencePoints() {
         return experiencePoints;
     }
@@ -57,7 +60,7 @@ public class Player extends Entity {
     }
 
     // Methods
-    public int calculateExperienceRequired(int level) {
+    public static int calculateExperienceRequired(int level) {
         // Padrão: O dobro dos pontos de experiência do nível anterior
         return (int) (Math.pow(2, level - 1) * 10);
     }
@@ -69,5 +72,13 @@ public class Player extends Entity {
     @Override
     public String toString() {
         return super.getName() + "\nNível: " + super.getLevel() + "\nHP: " + super.getHitPoints() + "\nXP: " + experiencePoints;
+    }
+
+    public int getExperienceRequired() {
+        return experienceRequired;
+    }
+
+    public void setExperienceRequired(int experienceRequired) {
+        this.experienceRequired = experienceRequired;
     }
 }

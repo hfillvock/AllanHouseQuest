@@ -57,7 +57,7 @@ import br.edu.up.allanhousequest.views.*;
                         model.selectPlayer((i));
                     }
 
-                    Utils.logger.info("Jogo iniciado com jogador" + model.getCurrentPlayer().getName() + ".");
+                    Utils.logger.info("Jogo iniciado com jogador " + model.getCurrentPlayer().getName() + ".");
                     gameLoop();
                     pass = true;
                     break;
@@ -93,10 +93,19 @@ import br.edu.up.allanhousequest.views.*;
         // Preenchimento da lista de monstros com o nível equivalente ao do jogador
         room.fillWithMonsters(model.getMonsters());
 
-        while (model.getCurrentPlayer().getLevel() <= room.getLevel()) {
+        while (model.getCurrentPlayer().getLevel() <= room.getLevel() && model.getIsRunning() == true) {
+            if (model.getCurrentPlayer().getExperiencePoints() >= model.getCurrentPlayer().getExperienceRequired()) {
+                model.getCurrentPlayer().setLevel(model.getCurrentPlayer().getLevel() + 1);
+                model.getCurrentPlayer().setExperienceRequired(Player.calculateExperienceRequired(model.getCurrentPlayer().getLevel()));
+            }
+
             // Escolhe um monstro aleatório dentre os possíveis da sala e inicia batalha
             Monster pickedMonster = room.getMonsters().get(Utils.random.nextInt(room.getMonsters().size()));
             startBattle(pickedMonster);
+        }
+
+        if (!model.getIsRunning()) {
+            return;
         }
 
         view.displayLevelUp(model.getCurrentPlayer().getLevel());
@@ -109,17 +118,15 @@ import br.edu.up.allanhousequest.views.*;
             switch (choice) {
                 case 'a':
                     openChest(chest);
-                    pass = true;
                     break;
                 case 'u':
                     useItem();
-                    pass = true;    
                     break;
                 case 's':
                     saveGame();
                     pass = true;
                     break;
-                case 'c': return; // gameLoop toma conta de gerar mais uma sala
+                case 'c': pass = true; return; // gameLoop toma conta de gerar mais uma sala
                 default: view.displayInvalidOption(); break;
             }
         }
@@ -161,7 +168,7 @@ import br.edu.up.allanhousequest.views.*;
             if (model.getCurrentPlayer().getHitPoints() <= 0) {
                 view.displayPlayerDiedMessage(monster);
                 endGame();
-                break;
+                return;
             }
         }
     }

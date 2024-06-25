@@ -115,7 +115,7 @@ public class RPGView {
 
     public void displayAttackResult(boolean successfullyHit, int damage) {
         if (successfullyHit) {
-            System.out.println("Ataque bem-sucedido! " + damage + " pontos de dano causados!");
+            Utils.printCentered("Ataque bem-sucedido! " + damage + " pontos de dano causados!");
             return;
         }
         Utils.printCentered("Ataque mal-sucedido...");
@@ -388,7 +388,7 @@ public class RPGView {
         Utils.printDivider();
 
         Utils.printCentered("Selecionando item. ");
-        Utils.printCentered("Insira o índice do item a editar:\n");
+        Utils.printCentered("Insira o índice do item:\n");
 
         return (Utils.scanInt() - 1);
     }
