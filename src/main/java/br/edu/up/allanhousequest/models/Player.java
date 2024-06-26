@@ -15,6 +15,7 @@ public class Player extends Entity {
     public Player(String name, int level) {
         super(name, level);
         this.setHitPoints(10 * level);
+        this.setTotalHitPoints(this.getHitPoints());
         this.setAttackModifier((level/2) * 5);
         this.experiencePoints = 0;
         

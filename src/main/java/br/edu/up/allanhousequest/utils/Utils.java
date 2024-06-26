@@ -25,6 +25,27 @@ public class Utils {
         return diceRoll;
     }
 
+    public static String barLine(int current, int total) {
+        double percentage = (double) current/total;
+        int i = 0;
+
+        String string = new String();
+
+        string += "[";
+
+        for (i = 0; i < (percentage * 13); i++) {
+            string += "▓";
+        }
+        
+        for (int j = i; j < 13; j++) {
+            string += "░";
+        }
+
+        string += "]";
+        
+        return string;
+    }
+
     public static char scanFirstChar() {
         System.out.print("\n> ");
         char readChar = scanner.next().toLowerCase().charAt(0);

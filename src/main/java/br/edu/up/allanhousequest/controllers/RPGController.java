@@ -1,9 +1,5 @@
 package br.edu.up.allanhousequest.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import br.edu.up.allanhousequest.models.*;
 import br.edu.up.allanhousequest.utils.Utils;
 import br.edu.up.allanhousequest.views.*;
@@ -20,9 +16,6 @@ import br.edu.up.allanhousequest.views.*;
     // -----------------------------------------------------------
 
     public void saveGame() {
-        if (model.getCurrentPlayer() != null) {
-            model.addPlayer(model.getCurrentPlayer());
-        }
         view.saveGame(model.saveGame());
     }
 
@@ -33,6 +26,8 @@ import br.edu.up.allanhousequest.views.*;
     // -----------------------------------------------------------
 
     public void startGame() {
+        view.warningQuery();
+
         loadGame();
 
         boolean pass = false;
@@ -46,22 +41,41 @@ import br.edu.up.allanhousequest.views.*;
                         createNewPlayer();
                         model.setCurrentPlayer(model.getPlayers().get(0));
                     } else {
-                        view.listPlayers(model.getPlayers());
-                        
-                        int i = view.selectPlayer();
+                        boolean pass2 = false;
 
-                        while (!isValidPlayerIndex(i)) {
-                            i = view.selectPlayer();
+                        while (!pass2) {
+                            char choice2 = view.selectOrCreateMenu();
+    
+                            switch (choice2) {
+                                case 's':
+                                    view.listPlayers(model.getPlayers());
+                                    
+                                    int i = view.selectPlayer();
+
+                                    while (!isValidPlayerIndex(i)) {
+                                        i = view.selectPlayer();
+                                    }
+
+                                    model.selectPlayer((i));
+                                    pass2 = true;
+                                    break;
+                                case 'c':
+                                    createNewPlayer();
+                                    model.setCurrentPlayer(model.getPlayers().getLast());
+                                    pass2 = true;
+                                    break;
+                                default:
+                                    view.displayInvalidOption();
+                                    break;
+                            }
                         }
-
-                        model.selectPlayer((i));
                     }
 
                     Utils.logger.info("Jogo iniciado com jogador " + model.getCurrentPlayer().getName() + ".");
                     gameLoop();
                     pass = true;
                     break;
-                case 'a': manageEntities(); break;
+                case 'a': manageEntities(); saveGame(); break;
                 case 's': saveGame(); pass = true; break;
                 default: view.displayInvalidOption(); break;
             }
@@ -79,21 +93,26 @@ import br.edu.up.allanhousequest.views.*;
     }
 
     public void endGame() {
-        Utils.logger.info("Jogo encerrado.");
         model.setIsRunning(false);
-        view.endGame();
+        view.endGame(model.getCurrentPlayer());
+        Utils.logger.info("Jogo encerrado.");
     }
 
     // -----------------------------------------------------------
     
     public void generateRoom() {
+
+        if (!model.getIsRunning()) {
+            return;
+        }
+
         Room room = new Room(model.getCurrentPlayer().getLevel());
         Chest chest = generateChest();
 
         // Preenchimento da lista de monstros com o nível equivalente ao do jogador
         room.fillWithMonsters(model.getMonsters());
 
-        while (model.getCurrentPlayer().getLevel() <= room.getLevel() && model.getIsRunning() == true) {
+        while (model.getCurrentPlayer().getLevel() <= room.getLevel() && model.getCurrentPlayer().getHitPoints() > 0) {
             if (model.getCurrentPlayer().getExperiencePoints() >= model.getCurrentPlayer().getExperienceRequired()) {
                 model.getCurrentPlayer().setLevel(model.getCurrentPlayer().getLevel() + 1);
                 model.getCurrentPlayer().setExperienceRequired(Player.calculateExperienceRequired(model.getCurrentPlayer().getLevel()));
@@ -104,28 +123,39 @@ import br.edu.up.allanhousequest.views.*;
             startBattle(pickedMonster);
         }
 
-        if (!model.getIsRunning()) {
+        if (model.getCurrentPlayer().getHitPoints() <= 0) {
             return;
         }
 
         view.displayLevelUp(model.getCurrentPlayer().getLevel());
+        int newHitPoints = (10 * model.getCurrentPlayer().getLevel());
+
+        model.getCurrentPlayer().setTotalHitPoints(newHitPoints);
+        model.getCurrentPlayer().setHitPoints(newHitPoints);
 
         boolean pass = false;
+        boolean chestOpened = false;
 
         while (!pass) {
             char choice = view.displayOptions();
 
             switch (choice) {
                 case 'a':
+                    if (chestOpened) {
+                        view.displayAlreadyOpenedChest();
+                        break;
+                    }
                     openChest(chest);
+                    chestOpened = true;
                     break;
                 case 'u':
                     useItem();
                     break;
                 case 's':
                     saveGame();
+                    model.setIsRunning(false);
                     pass = true;
-                    break;
+                    return;
                 case 'c': pass = true; return; // gameLoop toma conta de gerar mais uma sala
                 default: view.displayInvalidOption(); break;
             }
@@ -134,6 +164,8 @@ import br.edu.up.allanhousequest.views.*;
 
     public void startBattle(Monster monster) {
         view.displayMonsterEncounter(monster);
+
+        monster.setHitPoints(monster.getTotalHitPoints());
 
         while (model.getCurrentPlayer().getHitPoints() > 0 || monster.getHitPoints() > 0) {
             // Player Turn
@@ -154,10 +186,16 @@ import br.edu.up.allanhousequest.views.*;
                     default: view.displayInvalidOption(); break;
                 }
             }
-    
+
             // Verificação de derrota do monstro.
             if (monster.getHitPoints() <= 0) {
-                view.displayDefeatedMonsterMessage(monster);
+                boolean almostDead = false;
+
+                if ((double) model.getCurrentPlayer().getHitPoints() <= model.getCurrentPlayer().getTotalHitPoints() * 0.25) {
+                    almostDead = true;
+                }
+
+                view.displayDefeatedMonsterMessage(almostDead, monster);
                 model.getCurrentPlayer().setExperiencePoints(model.getCurrentPlayer().getExperiencePoints() + monster.getExperiencePoints());
                 break;
             } else {
@@ -170,6 +208,8 @@ import br.edu.up.allanhousequest.views.*;
                 endGame();
                 return;
             }
+
+            view.displayHealthBars(model.getCurrentPlayer(), monster);
         }
     }
     
@@ -182,10 +222,10 @@ import br.edu.up.allanhousequest.views.*;
 
         if (rolledDice + player.getAttackModifier() >= monster.getDefenseValue()) {
             monster.receiveDamage(damage);
-            view.displayAttackResult(true, damage);
+            view.displayPlayerAttackResult(true, damage);
 
         } else {
-            view.displayAttackResult(false, 0);
+            view.displayPlayerAttackResult(false, 0);
         }
     }
 
@@ -198,10 +238,10 @@ import br.edu.up.allanhousequest.views.*;
 
         if (rolledDice + monster.getAttackModifier()>= player.getDefenseValue()) {
             player.receiveDamage(damage);
-            view.displayAttackResult(true, damage);
+            view.displayMonsterAttackResult(true, damage);
 
         } else {
-            view.displayAttackResult(false, 0);
+            view.displayMonsterAttackResult(false, 0);
         }
     }
 
@@ -215,7 +255,7 @@ import br.edu.up.allanhousequest.views.*;
             }
         }
     
-        int numberOfItems = Utils.random.nextInt(4) + 1;
+        int numberOfItems = Utils.random.nextInt(4);
 
         for (int i = 0; i < numberOfItems; i++) {
             Item randomItem = chest.getPossibleItems().get(Utils.random.nextInt(chest.getPossibleItems().size()));
@@ -269,6 +309,10 @@ import br.edu.up.allanhousequest.views.*;
 
             model.getCurrentPlayer().setHitPoints(model.getCurrentPlayer().getHitPoints() + healAmount);
             model.getCurrentPlayer().getInventory().remove(i);
+
+            if (model.getCurrentPlayer().getHitPoints() > model.getCurrentPlayer().getTotalHitPoints()) {
+                model.getCurrentPlayer().setHitPoints(model.getCurrentPlayer().getHitPoints());
+            }
             
             view.displayHealAmount(healAmount);
         }
@@ -337,14 +381,17 @@ import br.edu.up.allanhousequest.views.*;
 
     public void createNewPlayer() {
         model.getPlayers().add(view.createNewPlayer());
+        Utils.logger.info("Jogador criado.");
     }
 
     public void createNewMonster() {
         model.getMonsters().add(view.createNewMonster());
+        Utils.logger.info("Monstro criado.");
     }
 
     public void createNewItem() {
         model.getItems().add(view.createNewItem());
+        Utils.logger.info("Item criado.");
     }
     
     // remove
@@ -371,6 +418,8 @@ import br.edu.up.allanhousequest.views.*;
             return;
         }
 
+        view.listPlayers(model.getPlayers());
+
         int i = view.removePlayer();
 
         while (!isValidPlayerIndex(i)) {
@@ -378,6 +427,7 @@ import br.edu.up.allanhousequest.views.*;
         }
 
         model.getPlayers().remove(i);
+        Utils.logger.info("Jogador removido.");
     }
 
     public void removeMonster() {
@@ -386,6 +436,8 @@ import br.edu.up.allanhousequest.views.*;
             return;
         }
 
+        view.listMonsters(model.getMonsters());
+
         int i = view.removeMonster();
 
         while (!isValidMonsterIndex(i)) {
@@ -393,6 +445,7 @@ import br.edu.up.allanhousequest.views.*;
         }
 
         model.getMonsters().remove(i);
+        Utils.logger.info("Monstro removido.");
     }
 
     public void removeItem() {
@@ -401,6 +454,8 @@ import br.edu.up.allanhousequest.views.*;
             return;
         }
 
+        view.listItems(model.getItems());
+
         int i = view.removeItem();
 
         while (!isValidItemIndex(i)) {
@@ -408,6 +463,7 @@ import br.edu.up.allanhousequest.views.*;
         }
 
         model.getItems().remove(i);
+        Utils.logger.info("Item removido.");
     }
 
     // edit
@@ -434,6 +490,8 @@ import br.edu.up.allanhousequest.views.*;
             return;
         }
 
+        view.listPlayers(model.getPlayers());
+
         int i = view.editPlayer();
 
         while (!isValidPlayerIndex(i)) {
@@ -443,6 +501,7 @@ import br.edu.up.allanhousequest.views.*;
         Player newPlayer = view.createNewPlayer();
 
         model.getPlayers().set(i, newPlayer);
+        Utils.logger.info("Jogador sobrescrito.");
     }
 
     public void editMonster() {
@@ -450,6 +509,8 @@ import br.edu.up.allanhousequest.views.*;
             view.noEntitiesMessage();
             return;
         }
+
+        view.listMonsters(model.getMonsters());
 
         int i = view.editMonster();
 
@@ -460,6 +521,7 @@ import br.edu.up.allanhousequest.views.*;
         Monster newMonster = view.createNewMonster();
 
         model.getMonsters().set(i, newMonster);
+        Utils.logger.info("Monstro sobrescrito.");
     }
 
     public void editItem() {
@@ -467,6 +529,8 @@ import br.edu.up.allanhousequest.views.*;
             view.noEntitiesMessage();
             return;
         }
+
+        view.listItems(model.getItems());
 
         int i = view.editItem();
 
@@ -477,6 +541,7 @@ import br.edu.up.allanhousequest.views.*;
         Item newItem = view.createNewItem();
 
         model.getItems().set(i, newItem);
+        Utils.logger.info("Item sobrescrito.");
     }
 
     // list

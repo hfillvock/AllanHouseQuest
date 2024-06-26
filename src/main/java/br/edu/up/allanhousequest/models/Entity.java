@@ -7,6 +7,7 @@ public abstract class Entity implements Serializable {
 	private String name;
 	private int level;
 	private int hitPoints;
+	private int totalHitPoints;
 	private int attackModifier;
 	private int defenseValue;
 	
@@ -15,6 +16,7 @@ public abstract class Entity implements Serializable {
 		this.name = name;
 		this.level = level;
 		this.hitPoints = hitPoints;
+		this.totalHitPoints = hitPoints;
 		this.attackModifier = attackModifier;
 		this.defenseValue = defenseValue;
 	}
@@ -25,6 +27,7 @@ public abstract class Entity implements Serializable {
 	}
 	
 	//Getters and Setters
+
 	public String getName() {
 		return name;
 	}
@@ -65,8 +68,17 @@ public abstract class Entity implements Serializable {
 		this.defenseValue = defenseValue;
 	}
 
+	public int getTotalHitPoints() {
+		return totalHitPoints;
+	}
+
+	public void setTotalHitPoints(int totalHitPoints) {
+		this.totalHitPoints = totalHitPoints;
+	}
+	
 	// Methods
 	public void receiveDamage(int damage) {
 		setHitPoints(getHitPoints() - damage);
 	}
+
 }

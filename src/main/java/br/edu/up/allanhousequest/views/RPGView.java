@@ -13,7 +13,16 @@ import br.edu.up.allanhousequest.utils.Utils;
 
 public class RPGView {
 
+    public void warningQuery() {
+        Utils.printDivider();
+
+        Utils.printCentered("ATENÇÃO! esse é um jogo DIFÍCIL! confirme que você não vai chorar jogando inserindo qualquer tecla: ");
+        Utils.scanLine();
+    }
+
     public char mainMenu() {
+        Utils.printDivider();
+
         System.out.println("\r\n" + //
                         "                                                          _/                                                            \r\n" + //
                         "         _/    _/_/    _/      _/    _/_/      _/_/_/  _/          _/_/      _/    _/  _/_/_/_/    _/_/_/  _/_/_/_/_/   \r\n" + //
@@ -35,12 +44,18 @@ public class RPGView {
 
     public void startingText(Player player) {
         Utils.printDivider();
-        Utils.printCentered("Bem vindo a casa de Allan House, " + player.getName() + ".");
+
+        Utils.printCentered("Bem vindo a casa de Allan House, " + player.getName() + ".\n");
+        Utils.printCentered("Insira qualquer tecla para mostrar que você é fera:");
+
+        Utils.scanLine();
     }
 
-    public void endGame() {
+    public void endGame(Player player) {
         Utils.printDivider();
-        Utils.printCentered("Fim de jogo.");
+
+        Utils.printCentered(player.getName() + " não foi capaz de desvendar o mistério. ");
+        Utils.printDivider();
     }
 
     public int selectPlayer() {
@@ -69,6 +84,7 @@ public class RPGView {
     //Room Generation Displays
     public void displayMonsterEncounter(Monster monster) {
         Utils.printDivider();
+
         Utils.printCentered("Você encontrou um " + monster.getName() + "!");
     }
 
@@ -80,7 +96,7 @@ public class RPGView {
     public char displayOptions() {
         Utils.printDivider();
 
-        Utils.printCentered("O que deseja fazer?");
+        Utils.printCentered("O que deseja fazer?\n");
         Utils.printCentered("[A]brir baú");
         Utils.printCentered("[U]sar Item");
         Utils.printCentered("[S]alvar jogo e sair.");
@@ -96,16 +112,21 @@ public class RPGView {
     public char displayYourBattleTurn() {
         Utils.printDivider();
 
-        Utils.printCentered("Seu turno! Escolha sua ação: ");
+        Utils.printCentered("Seu turno! Escolha sua ação: \n");
         Utils.printCentered("[A]tacar");
         Utils.printCentered("[U]sar Item");
 
         return Utils.scanFirstChar();
     }
 
-    public void displayDefeatedMonsterMessage(Monster monster) {
+    public void displayDefeatedMonsterMessage(boolean almostDead, Monster monster) {
+        if (almostDead) {
+            Utils.printCentered("Você está malacabado, mas derrotou o " + monster.getName() + "!");
+            Utils.printCentered("Você recebeu " + monster.getExperiencePoints() + " de experiência!");
+            return;
+        }
         Utils.printCentered("Você derrotou o " + monster.getName() + "!");
-        Utils.printCentered("Você recebeu " + monster.getExperiencePoints() + " pontos de experiência!");
+        Utils.printCentered("Você recebeu " + monster.getExperiencePoints() + " de experiência!");
     }
 
     public void displayInitialAttackStats(Entity attacker, Entity target, int rolledDice) {
@@ -113,12 +134,20 @@ public class RPGView {
         Utils.printCentered((rolledDice + attacker.getAttackModifier()) + " (" + rolledDice + "+" + attacker.getAttackModifier() + ") vs " + target.getDefenseValue());
     }
 
-    public void displayAttackResult(boolean successfullyHit, int damage) {
+    public void displayPlayerAttackResult(boolean successfullyHit, int damage) {
         if (successfullyHit) {
-            Utils.printCentered("Ataque bem-sucedido! " + damage + " pontos de dano causados!");
+            Utils.printCentered("Ataque bem-sucedido! Você causou " + damage + " pontos de dano!\n");
             return;
         }
-        Utils.printCentered("Ataque mal-sucedido...");
+        Utils.printCentered("Ataque mal-sucedido...\n");
+    }
+
+    public void displayMonsterAttackResult(boolean successfullyHit, int damage) {
+        if (successfullyHit) {
+            Utils.printCentered("Ataque bem-sucedido... Você recebeu " + damage + " pontos de dano!\n");
+            return;
+        }
+        Utils.printCentered("Ataque mal-sucedido!\n");
     }
 
     public void displayPlayerDiedMessage(Monster monster) {
@@ -183,7 +212,7 @@ public class RPGView {
         Utils.printCentered("Criando item.");
 
         while (choice < 1 || choice > 3) {
-            Utils.printCentered("Que tipo de item deseja criar?");
+            Utils.printCentered("Que tipo de item deseja criar?\n");
             Utils.printCentered("1 - Armadura");
             Utils.printCentered("2 - Arma");
             Utils.printCentered("3 - Poção");
@@ -394,14 +423,35 @@ public class RPGView {
     }
 
     public void displayEquippedArmour() {
-        Utils.printCentered("A armadura foi equipada.");
+        Utils.printCentered("A armadura foi equipada.\n");
     }
 
     public void displayEquippedWeapon() {
-        Utils.printCentered("A arma foi equipada.");
+        Utils.printCentered("A arma foi equipada.\n");
     }
 
     public void displayHealAmount(int healAmount) {
-        Utils.printCentered("Curado em " + healAmount + " HP.");
+        Utils.printCentered("Curado em " + healAmount + " HP.\n");
+    }
+
+    public void displayHealthBars(Player player, Monster monster) {
+        String playerHealth = Utils.barLine(player.getHitPoints(), player.getTotalHitPoints());
+        String monsterHealth = Utils.barLine(monster.getHitPoints(), monster.getTotalHitPoints());
+
+        Utils.printCentered(player.getName() + ": " + playerHealth + "          " + monster.getName() + ": " + monsterHealth);
+    }
+
+    public void displayAlreadyOpenedChest() {
+        Utils.printCentered("Você já abriu um baú neste nível.");
+    }
+
+    public char selectOrCreateMenu() {
+        Utils.printDivider();
+
+        Utils.printCentered("Deseja selecionar um personagem existente ou criar um novo?\n");
+        Utils.printCentered("[S]elecionar");
+        Utils.printCentered("[C]riar");
+
+        return Utils.scanFirstChar();
     }
 }
