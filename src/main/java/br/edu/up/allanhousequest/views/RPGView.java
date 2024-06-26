@@ -142,6 +142,10 @@ public class RPGView {
         Utils.printCentered("Ataque mal-sucedido...\n");
     }
 
+    public void dislayCriticalAttack() {
+        Utils.printCentered("Você conseguiu um ataque crítico!!!");
+    }
+
     public void displayMonsterAttackResult(boolean successfullyHit, int damage) {
         if (successfullyHit) {
             Utils.printCentered("Ataque bem-sucedido... Você recebeu " + damage + " pontos de dano!\n");
