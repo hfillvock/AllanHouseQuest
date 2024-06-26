@@ -218,7 +218,12 @@ import br.edu.up.allanhousequest.views.*;
 
         view.displayInitialAttackStats(player, monster, rolledDice);
 
-        int damage = Utils.diceRoll(player.getEquippedWeapon().getDamageDiceQuantity(), player.getEquippedWeapon().getDamageDice());
+        int damage = Utils.diceRoll(player.getEquippedWeapon().getDamageDiceQuantity(), player.getEquippedWeapon().getDamageDice()) + player.getLevel();
+        
+        if (rolledDice == 20) {
+            damage *= 2;
+            view.dislayCriticalAttack();
+        }
 
         if (rolledDice + player.getAttackModifier() >= monster.getDefenseValue()) {
             monster.receiveDamage(damage);
