@@ -45,7 +45,31 @@ public class RPGView {
     public void startingText(Player player) {
         Utils.printDivider();
 
-        Utils.printCentered("Bem vindo a casa de Allan House, " + player.getName() + ".\n");
+        System.out.println("                                             _______________________\r\n" + //
+                        "   _______________________-------------------                       `\\\r\n" + //
+                        " /:--__                                                              |\r\n" + //
+                        "||< > |                                   ___________________________/\r\n" + //
+                        "| \\__/_________________-------------------                         |\r\n" + //
+                        "|                                                                  |\r\n" + //
+                        " |                         JONAS'  QUEST                           |\r\n" + //
+                        " |                                                                  |\r\n" + //
+                        " |        \"Nossas terras, uma vez belas, foram tomadas              |\r\n" + //
+                        "  |          O Lich Sombrio nelas espalha escuridão,                 |\r\n" + //
+                        "  |           Nossas esperanças em ti foram depositadas,             |\r\n" + //
+                        "  |        Pedimos que lute com bravura e determinação,              |\r\n" + //
+                        "  |          Para curar as muitas almas hoje desesperadas.            |\r\n" + //
+                        "   |            Vague pelos ermos e castelos devastados,              |\r\n" + //
+                        "   |             Encontre a Xumilanguinha e, com ela,                 |\r\n" + //
+                        "   |                 dê um fim ao sombrio reinado,                    |\r\n" + //
+                        "   |          E restaure a preciosa paz que nos foi tirada,          |");
+        
+        System.out.println("  |                              " + Utils.padRight(player.getName() , 36) + "|");
+
+        System.out.println("  |                                              ____________________|_\r\n" + //
+                        "  |  ___________________-------------------------                      `\\\r\n" + //
+                        "  |/`--_                                                                 |\r\n" + //
+                        "  ||[ ]||                                            ___________________/\r\n" + //
+                        "   \\===/___________________--------------------------\n");
         Utils.printCentered("Insira qualquer tecla para mostrar que você é fera:");
 
         Utils.scanLine();

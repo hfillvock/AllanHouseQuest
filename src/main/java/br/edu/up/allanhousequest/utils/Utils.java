@@ -15,6 +15,10 @@ public class Utils {
     public static Random random  = new Random();
     public final static int width = 118;
 
+    public static String padRight(String s, int n) {
+        return String.format("%-" + n + "s", s);  
+   }
+
     public static int diceRoll(int diceQuantity, int diceNumber) {
         int diceRoll = 0;
         
