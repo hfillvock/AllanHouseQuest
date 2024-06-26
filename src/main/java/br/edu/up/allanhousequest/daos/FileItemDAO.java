@@ -30,15 +30,13 @@ public class FileItemDAO implements ItemDAO {
 
     @Override
     public void saveItems(List<Item> items) {
-        if (!items.isEmpty()) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-                out.writeObject(items);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Utils.logger.info("Arquivo de itens salvo.");
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            out.writeObject(items);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
+        Utils.logger.info("Arquivo de itens salvo.");
     }
 
     @Override

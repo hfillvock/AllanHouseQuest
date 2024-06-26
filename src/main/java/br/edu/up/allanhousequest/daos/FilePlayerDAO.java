@@ -30,12 +30,10 @@ public class FilePlayerDAO implements PlayerDAO {
 
     @Override
     public void savePlayers(List<Player> players) {
-        if (!players.isEmpty()) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-                out.writeObject(players);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            out.writeObject(players);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Utils.logger.info("Arquivo de jogadores salvo.");

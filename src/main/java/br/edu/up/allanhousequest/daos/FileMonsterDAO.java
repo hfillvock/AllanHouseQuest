@@ -30,12 +30,10 @@ public class FileMonsterDAO implements MonsterDAO {
 
     @Override
     public void saveMonsters(List<Monster> monsters) {
-        if (!monsters.isEmpty()) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-                out.writeObject(monsters);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            out.writeObject(monsters);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Utils.logger.info("Arquivo de monstros salvo.");
